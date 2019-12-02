@@ -7,11 +7,13 @@
   ;
 
   SharedProfile.$inject = [
-    'profileService'
+    'profileService',
+    'AvatarGraphic'
   ];
 
   function SharedProfile(
-    profileService
+    profileService,
+    AvatarGraphic
   ) {
 
     function SharedProfile( avatarName, avatarGraphic, profileIUUID, fcmDeviceId ) {
@@ -127,6 +129,12 @@
     SharedProfile.create_from_scan = function create_from_scan( scanData ) {
       var profile;
       var data = JSON.parse( atob(scanData) );
+      try{ 
+        data.avatarGraphic = AvatarGraphic.build(data.avatarGraphic.colour, data.avatarGraphic.values);
+      } catch (error) {
+        console.log(error);
+        return;
+      }
       try {
         profile = SharedProfile.build( data );
       } catch (error) {
