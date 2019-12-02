@@ -3,7 +3,7 @@
  <!--  <ion-view cache-view="false"> -->
   <div style="background: transparent;">
     <div class="bar bar-header" id="openMessageModalHeader">
-    {{vm.messageType}}
+      <div class="h1 title">{{vm.messageType}}</div>
     </div>
     <!-- <p>{{vm.messageType}}</p> -->
     <!-- <p ng-show="vm.messageType=='connectionRequest'">{{vm.messageType}} show</p>
@@ -11,8 +11,14 @@
     <!-- <p ng-show="vm.true">{{vm.messageType}} true show</p>
     <p ng-hide="vm.true">{{vm.messageType}} true hide</p> -->
 
-    <div id="connectionRequestOpen" ng-show="vm.messageType=='connectionRequest'">
-      <div id="ConnectionRequestOpenText">{{vm.params[0].message.sender_name}} wants to add you as a friend<br></div>
+    <div class="has-header" id="connectionRequestOpen" ng-show="vm.messageType=='connectionRequest'">
+      <div id="ConnectionRequestOpenText">
+        <p>
+          <canvas id='OpenMessageModalConnectionRequestAvatarImage'
+        height=80 width=80>
+          </canvas>{{vm.params[0].message.sender_name}} wants to add you as a friend<br>
+        </p>
+      </div>
 
       <!-- <button class="button button-balanced" ng-click="vm.connectionRequestClick('accepted')">
           accept?
@@ -22,35 +28,49 @@
             decline
       </button> -->
 
-        <canvas id='OpenMessageModalConnectionRequestAvatarImage'
-        height=80 width=80></canvas>
+        <!-- <canvas id='OpenMessageModalConnectionRequestAvatarImage'
+        height=80 width=80></canvas> -->
 
       <div class="bar bar-footer" id="connectionRequestFooterBar">
         <button class="button button-balanced" ng-click="vm.connectionRequestClick('accepted')">
           accept?
-      </button>
-        <!-- <h1 class="title">Header Buttons</h1> -->
+        </button>
+        
         <button class="button button-assertive" ng-click="vm.connectionRequestClick('declined')">
           decline
-    </button> 
+        </button> 
       </div>
       
       <!-- directive? -->
     </div>
 
 
-    <div id="connectionResponseOpen" ng-show="vm.messageType=='connectionResponse'">
-        {{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br>
+    <div class="has-header" id="ConnectionResponseOpenText" ng-show="vm.messageType=='connectionResponse'">
+        <div>{{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br></div>
 
-        <button class="button button-energized" ng-click="vm.closeModal()">
+        <!-- <button class="button button-energized" ng-click="vm.closeModal()">
             close
-          </button>
+          </button> -->
+
+          <!-- <div class="bar bar-footer" id="connectionResponseFooterBar">
+            <button class="button button-energized" ng-click="vm.closeModal()">
+              close
+            </button> -->
+            <!-- <div class="bar bar-footer" id="connectionResponseFooterBar"> -->
+              <button class="bar bar-footer button button-energized" id="connectionResponseFooterButton" ng-click="vm.closeModal()">
+                close
+              </button>
+
+            <!-- <button class="button button-energized" ng-click="vm.closeModal()">
+              close
+            </button> -->
+          <!-- </div> -->
 
     </div>
 
 
 
-    <div id="musicSharing" ng-show="vm.messageType=='musicSharing'">
+    <div class="has-header" id="musicSharing" ng-show="vm.messageType=='musicSharing'">
         {{vm.params[0].message.sender_name}} has shared music with you!<br>
 
         <button class="button button-balanced">

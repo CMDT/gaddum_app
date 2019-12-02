@@ -2294,16 +2294,32 @@ div#scroller.ng-hide {
 }
 
 #OpenMessageModalConnectionRequestAvatarImage{
-    position: absolute;
-    top: 22%;
-    left: 5%;
+    float: left;
+    margin-right: 2px;
 }
+
 #ConnectionRequestOpenText{
     position: absolute;
     top: 22%;
-    left: calc(6% + 80px);
+}
+#ConnectionRequestOpenText p{
+    font-size: 30px;
+    line-height: 30px;
 }
 #openMessageModalHeader{
     background-color: transparent;
     width: 100%
+}
+
+#ConnectionResponseOpenText{
+    position: absolute;
+    /* top: 22%; */
+    height: calc(100% - 47px);
+    width: 100%;
+}
+
+
+#connectionResponseFooterButton {
+    width: 97%;
+    position: absolute;
 }

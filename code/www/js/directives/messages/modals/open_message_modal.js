@@ -84,7 +84,7 @@
 
         function cancel() {
             //$scope.fnCallbackOk(encodedImage);
-            //$scope.fnCallbackCancel();
+            $scope.fnCallbackCancel();
         }
         function getEncodedImage() {
             return encodedImage;

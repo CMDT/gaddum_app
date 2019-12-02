@@ -27,7 +27,7 @@
     $timeout
   ) {
     var vm = angular.extend(this, {
-
+      modalOpen:false
     });
 
     function init() {
@@ -294,36 +294,47 @@
 
     function asyncLaunchModal(message) {
       var deferred = $q.defer();
-      $timeout(
-        function () {
-          friendsService.searchFriendsByID(message.From).then(function (friend) {
+      if (message.message_type == "musicSharing") {
+        console.log("open music modal here");
+      } else if(vm.modalOpen==false){
+        $timeout(
+          function () {
+            friendsService.searchFriendsByID(message.From).then(function (friend) {
 
-            var modalParams = [
-              { "message": message },
-              { "graphic": friend.profile.avatar_graphic }
-              //{"graphic":
-              /* ,
-              { "userGenres": vm.selectedGenres },
-              { "userProfile": vm.userProfile } */
-            ];
-            openMessageModal.open(modalParams, callback, cancel);
-            deferred.resolve();
-          },
-            function () {
-              console.log("couldn't find friend", friendID);
-            });
-        }
-      );
+              var modalParams = [
+                { "message": message },
+                { "graphic": friend.profile.avatar_graphic }
+                //{"graphic":
+                /* ,
+                { "userGenres": vm.selectedGenres },
+                { "userProfile": vm.userProfile } */
+              ];
+              //console.log(modalParams[0].message);
+              vm.modalOpen=true;
+              openMessageModal.open(modalParams, callback, cancel);
+              deferred.resolve();
+            },
+              function () {
+                console.log("couldn't find friend", friendID);
+              });
+          }
+        );
 
-      return deferred.promise;
+
+        return deferred.promise;
+      } else{
+        console.error("rejected attempt to to open second modal: "+message.message_type)
+      }
     }
 
     function callback(params){
       console.log("callback params",params);
+      vm.modalOpen=false;
     };
 
     function cancel(params){
       console.log("cancel params",params);
+      vm.modalOpen=false;
     };
 
     init();
