@@ -94,7 +94,6 @@
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
     <plugin name="es6-promise-plugin" spec="^4.2.2" />
@@ -102,7 +101,6 @@
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.1.1" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.2" />
     <plugin name="cordova-plugin-appversion" spec="^1.0.0" />
-    <plugin name="cordova-spotify-oauth" spec="^0.1.12" />
     <plugin name="cordova-plugin-customurlscheme" spec="^4.4.0">
         <variable name="URL_SCHEME" value="gaddumspotify" />
         <variable name="ANDROID_SCHEME" value=" " />

@@ -120,13 +120,6 @@ Actually, this app is designed to use many Music Streaming Providers.
 When you build the app, you will need to register it with Spotify (and any other service providers we will hopefully support). 
 You will need to obtain a Spotify Client Id. 
 
-Put the Client ID in the Database. It must go in the following table:
-
-**music_provider_settings** 
-
-|provider|id|value|value_type|
-|-|-|-|-|
-|gaddumMusicProviderSpotifyService|client_id|~xx9xxxdc21redactedxxa1d74xx5b03e~|string|
 
 
 ## Android build with android-barcode-scanner

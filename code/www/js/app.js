@@ -13,6 +13,7 @@ angular.module('gaddum', [
   'ngTouch',
   'utilitiesjs',
   'dataapijs',
+  'authenticatejs',
   'app.db',
   'gaddum.publishandsubscribe',
   'gaddum.models',

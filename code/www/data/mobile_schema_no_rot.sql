@@ -215,57 +215,13 @@ INSERT INTO music_provider_settings (
                                         'string'
                                     );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'client_id',
-                                        'e09602dc211e406a99b2a1d74215b03e',
-                                        'string'
-                                    );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'redirect_url',
-                                        'gaddumspotify://callback',
-                                        'string'
-                                    );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'token_refresh_url',
-                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
-                                        'string '
-                                    );
 
-INSERT INTO music_provider_settings (
-                                        provider,
-                                        id,
-                                        value,
-                                        value_type
-                                    )
-                                    VALUES (
-                                        'gaddumMusicProviderSpotifyService',
-                                        'token_exchange_url',
-                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
-                                        'string '
-                                    );
+
+
+
+
 
 INSERT INTO music_provider_settings (
                                         provider,
