@@ -29,7 +29,74 @@
         AVATAR_GRAPHIC: 'avatar_graphic',
         AVATAR_NAME: 'avatar_name',
         PROFILE_ID: 'profile_id',
-        DEVICE_ID: 'push_device_id'
+        DEVICE_ID: 'push_device_id',
+        fnames: [
+          "Apple",
+          "Apricot",
+          "Asparagus",
+          "Avocado",
+          "Banana",
+          "Blackberry",
+          "Blueberry",
+          "Boysenberry",
+          "Breadfruit",
+          "Elderberry",
+          "Limeberry",
+          "Cranberry",
+          "Cantaloupe",
+          "Cherry",
+          "Citron",
+          "Citrus",
+          "Coconut",
+          "Date",
+          "Elderberry",
+          "Fig",
+          "Grape",
+          "Grapefruit",
+          "Jackfruit",
+          "Guava",
+          "Hawthorn",
+          "Kiwi",
+          "Lemon",
+          "Lime",
+          "Mango",
+          "Melon",
+          "Mulberry",
+          "Nectarine",
+          "Orange",
+          "Papaya",
+          "Passionfruit",
+          "Peach",
+          "Pear",
+          "Pineapple",
+          "Plum",
+          "Prune",
+          "Raisin",
+          "Raspberry",
+          "Tangerine",
+          "Loquat",
+          "Vanilla",
+          "Dragon-Fruit"
+        ],
+        lnames: [
+          "Chutney",
+          "Conserve",
+          "Compote",
+          "Confit",
+          "Conserve",
+          "Curd",
+          "Fruit-Butter",
+          "Fruit-Curd",
+          "Fruit-Cheese",
+          "Fruit-Spread",
+          "Jam",
+          "Jelly",
+          "Marmalade",
+          "Mincemeat",
+          "Pickle",
+          "Preserve",
+          "Relish"
+        ]
       };
 
       var VALID_TYPES = SettingIdentifier.VALID_TYPES;
@@ -91,6 +158,10 @@
                     result[SETTINGS.AVATAR_NAME]=results[1];
                     result[SETTINGS.AVATAR_GRAPHIC]=results[2]; 
                     result[SETTINGS.DEVICE_ID]=results[3];
+
+                  if (results[1]===null) {
+                    results[1]="NAME MISSING"; // @TODO: fix why name doesn't make it through
+                  }
 
                     deferred.resolve(result);
 

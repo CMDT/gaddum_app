@@ -9,7 +9,8 @@
     'profileEditModal',
     '$scope',
     'editImageModal',
-    'genresCheckboxModal'
+    'genresCheckboxModal',
+    'profileService.js'
 
   ];
 
@@ -17,7 +18,8 @@
     profileEditModal,
     $scope,
     editImageModal,
-    genresCheckboxModal
+    genresCheckboxModal,
+    profileService
   ) {
     var vm = angular.extend(this, {
       showGenres: false,
@@ -29,74 +31,6 @@
       isProfileGraphicEditOpen:false
     });
     var scale = 8;
-    var fnames = [
-      "Apple",
-      "Apricot",
-      "Asparagus",
-      "Avocado",
-      "Banana",
-      "Blackberry",
-      "Blueberry",
-      "Boysenberry",
-      "Breadfruit",
-      "Elderberry",
-      "Limeberry",
-      "Cranberry",
-      "Cantaloupe",
-      "Cherry",
-      "Citron",
-      "Citrus",
-      "Coconut",
-      "Date",
-      "Elderberry",
-      "Fig",
-      "Grape",
-      "Grapefruit",
-      "Jackfruit",
-      "Guava",
-      "Hawthorn",
-      "Kiwi",
-      "Lemon",
-      "Lime",
-      "Mango",
-      "Melon",
-      "Mulberry",
-      "Nectarine",
-      "Orange",
-      "Papaya",
-      "Passionfruit",
-      "Peach",
-      "Pear",
-      "Pineapple",
-      "Plum",
-      "Prune",
-      "Raisin",
-      "Raspberry",
-      "Tangerine",
-      "Loquat",
-      "Vanilla",
-      "Dragon-Fruit"
-    ];
-
-    var lnames = [
-      "Chutney",
-      "Conserve",
-      "Compote",
-      "Confit",
-      "Conserve",
-      "Curd",
-      "Fruit-Butter",
-      "Fruit-Curd",
-      "Fruit-Cheese",
-      "Fruit-Spread",
-      "Jam",
-      "Jelly",
-      "Marmalade",
-      "Mincemeat",
-      "Pickle",
-      "Preserve",
-      "Relish"
-    ];
     //vm.fullName;
     //vm.displayImage;
     var newGenres = [];
@@ -167,8 +101,10 @@
     };
 
     vm.newName = function () {
-      var fname = fnames[Math.floor(Math.random() * fnames.length)];
-      var lname = lnames[Math.floor(Math.random() * lnames.length)];
+      var fname = profileService.SETTINGS.fnames[Math.floor(Math.random() *
+                                                            profileService.SETTINGS.fnames.length)];
+      var lname = profileService.SETTINGS.lnames[Math.floor(Math.random() *
+                                                            profileService.SETTINGS.lnames.length)];
       vm.fullName = fname + " " + lname;
       // setTimeout(function(){  vm.defaultName=false; $scope.$apply(); }, 0);
       vm.defaultName=false;

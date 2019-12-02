@@ -18,7 +18,8 @@
     '$ionicModal',
     '$scope',
     'spinnerService',
-    '$ionicSlideBoxDelegate'
+    '$ionicSlideBoxDelegate',
+    'SharedProfile'
   ];
 
   function control(
@@ -34,7 +35,8 @@
     $ionicModal,
     $scope,
     spinnerService,
-    $ionicSlideBoxDelegate
+    $ionicSlideBoxDelegate,
+    SharedProfile
   ) {
     var vm = angular.extend(this, {
       scrollGenre: true,
@@ -109,6 +111,23 @@
         }
       );
     };
+
+    function getEncodedProfile() {
+      var deferred = $q.defer();
+      profileService.asyncGetUserProfile().then(function(profile){
+        var myProfile = SharedProfile.create_from_vars(profile[ profileService.SETTINGS.AVATAR_NAME ],
+                                                       profile[ profileService.SETTINGS.AVATAR_GRAPHIC ],
+                                                       profile[ profileService.SETTINGS.PROFILE_ID ],
+                                                       profile[ profileService.SETTINGS.DEVICE_ID ]);
+        deferred.resolve(
+          btoa(
+            JSON.stringify( myProfile )
+          )
+        );
+      });
+      return deferred.promise;
+    }
+
     vm.setName = function setName(name) {
       spinnerService.spinnerOn();
       vm.name = name;
@@ -116,8 +135,11 @@
       return profileService.asyncSetAvatarName(name).then(
         function () {
           spinnerService.spinnerOff();
+
           setTimeout(function () {
-            vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
+            getEncodedProfile().then(function(profile){
+              vm.encodedProfile = profile;
+            });
           }, 0);
         }, function (error) {
           spinnerService.spinnerOff();
@@ -134,7 +156,10 @@
       return profileService.asyncSetGenres(genres).then(
         function () {
           vm.userGenres = genres;
-          vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
+          getEncodedProfile().then(function(profile){
+            vm.encodedProfile = profile;
+          });
+          //vm.encodedProfile =btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
           vm.genreScrollChecker();
         }, function (error) {
           spinnerService.spinnerOff();
@@ -187,7 +212,11 @@
             document.getElementById("nameHeader").innerText=vm.name;
           }
           vm.nameTextResizer();
-          vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
+          getEncodedProfile().then(function(profile){
+            vm.encodedProfile = profile;
+          });
+
+          //vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
           deferred.resolve(true);
         },
         function fail(error) {

@@ -7,11 +7,11 @@
   ;
 
   SharedProfile.$inject = [
-
+    'profileService'
   ];
 
   function SharedProfile(
-
+    profileService
   ) {
 
     function SharedProfile( avatarName, avatarGraphic, profileIUUID, fcmDeviceId ) {
@@ -33,26 +33,33 @@
         if(nameParts.length!==2) {
           return false;
         }
-        if(profileEditModalController.fnames.indexOf(nameParts[0])===-1) {
+        if(profileService.SETTINGS.fnames.indexOf(nameParts[0])===-1) {
           return false;
         }
-        if(profileEditModalController.lnames.indexOf(nameParts[1])===-1) {
+        if(profileService.SETTINGS.lnames.indexOf(nameParts[1])===-1) {
           return false;
         }
         return true;
       },
       "avatarGraphic":function validateAvatarGraphic(graphic) {
-        if(angular.isArray(graphic)===false) {
+        //if(graphic instanceof AvatarGraphic === false) {
+        if(graphic instanceof Object === false) {
           return false;
         }
-        if(graphic.length!==8) {
+        if(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/i.test(graphic.getColour())===false) {
+          return false;
+        }
+        if(angular.isArray(graphic.getValues())===false) {
+          return false;
+        }
+        if(graphic.getValues().length!==8) {
           return false;
         }
         for(var i=0; i<8; i++) {
-          if(angular.isNumeric(graphic[i])===false) {
+          if(angular.isNumber(graphic.getValues()[i])===false) {
             return false;
           }
-          if(graphic[i]<0 || graphic[i]>255) {
+          if(graphic.getValues()[i]<0 || graphic.getValues()[i]>255) {
             return false;
           }
         }
@@ -71,7 +78,7 @@
       "fcmDeviceId": function validateFcmDeviceId( devId ) {
         // no published validation mechanism for this - see
         // https://stackoverflow.com/questions/12403628/is-there-a-gcm-registrationid-pattern
-        if(Angular.isString( devId )===false) {
+        if(angular.isString( devId )===false) {
           return false;
         }
         if(devId.length<1 || devId.length>4096) {
