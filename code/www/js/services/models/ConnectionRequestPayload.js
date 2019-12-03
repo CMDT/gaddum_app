@@ -15,15 +15,15 @@
 
     function ConnectionRequestPayload( partyOneProfile, partyTwoProfile ) {
       // Public properties, assigned to the instance ('this')
-      this.id = id;
+//      this.id = id;
       this.payload = {
         "partyOneProfile": partyOneProfile,
         "partyTwoProfile": partyTwoProfile,
-        "uuid": utilitesService.createUuid()
+        "uuid": utilitiesService.createUuid()
       };
-      this.getId = function() {
-        return this.id;
-      };
+//      this.getId = function() {
+//        return this.id;
+//      };
       this.getPayload = function() {
         return this.payload;
       };

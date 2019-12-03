@@ -10,8 +10,7 @@
     '$scope',
     'editImageModal',
     'genresCheckboxModal',
-    'profileService.js'
-
+    'profileService'
   ];
 
   function profileEditModalController(

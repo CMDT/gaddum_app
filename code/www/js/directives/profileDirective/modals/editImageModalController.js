@@ -7,13 +7,14 @@
 
   editImageModalController.$inject = [
     '$scope',
-    'editImageModal'
-
+    'editImageModal',
+    'profileService'
   ];
 
   function editImageModalController(
     $scope,
-    editImageModal
+    editImageModal,
+    profileService
   ) {
     var vm = angular.extend(this, {
       showGenres: false

@@ -69,7 +69,7 @@
                                                              profile[ profileService.SETTINGS.PROFILE_ID ],
                                                              profile[ profileService.SETTINGS.DEVICE_ID ]);
               var scannedProfile = SharedProfile.create_from_scan(scan.text);
-              var connectionRequestPayload = ConnectionRequestProfile.build( myProfile, scannedProfile );
+              var connectionRequestPayload = ConnectionRequestPayload.build( myProfile, scannedProfile );
               messagingService.sendMessage(
                 {
                   message_type: messagingService.message_type.CONNECTION_REQUEST,
