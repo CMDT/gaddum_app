@@ -21,7 +21,8 @@
       showGenres: false,
       messageType:"",
       params:[],
-      true:true
+      true:true,
+      messageTypeDisplay:"null"
     });
     var friendGraphic;
     function init() {
@@ -29,19 +30,53 @@
       console.log("params from modal",vm.params);
       vm.messageType=vm.params[0].message.message_type;
       friendGraphic= vm.params[1].graphic;
-      //var canvas= document.getElementById('TESTCANVAS');
+      
+      var canvas=[];
+      switch (vm.messageType) {
+        case "connectionResponse":
+            vm.messageTypeDisplay="Connection Response";
+            canvas=['OpenMessageModalConnectionResponseAvatarImage'];
+          break;
+          case "connectionRequest":
+            vm.messageTypeDisplay="Connection Request";
+            canvas=['OpenMessageModalConnectionRequestAvatarImage'];
+            break;      
+        default:
+            vm.messageTypeDisplay="Unrecognised message type";
+            canvas=['OpenMessageModalConnectionRequestAvatarImage','OpenMessageModalConnectionResponseAvatarImage']
+          break;
+      }
       
       setTimeout(function() {
         console.log("finding canvas");
         console.time('canvasFinding');
-        while (document.getElementById('OpenMessageModalConnectionRequestAvatarImage')==null) {
-        }
-        var canvas= document.getElementById('OpenMessageModalConnectionRequestAvatarImage');
+        
+        var id=findCanvas(canvas);
+        console.log('id==+'+id);
+        vm.createMessageProfileGraphic(id);
+
         console.timeEnd('canvasFinding');
-        vm.createMessageProfileGraphic('OpenMessageModalConnectionRequestAvatarImage');
       }, 0);
       
+      
     };
+
+    function findCanvas(canvases) {
+      var found=false;
+      var foundCanvasName="";
+        while (!found) {
+
+          for(var i=0; i<=canvases.length;i++){
+            if (document.getElementById(canvases[i])!=null) {
+              found=true;
+              foundCanvasName=canvases[i];
+              break;
+            }
+          }
+        }
+        console.log("found name="+foundCanvasName);
+        return foundCanvasName;
+    }
 
     vm.connectionRequestClick=function(response){
       console.log(response);

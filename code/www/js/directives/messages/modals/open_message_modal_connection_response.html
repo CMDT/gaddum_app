@@ -1,0 +1,48 @@
+<div class="modal openMessageModal" id="openMessageModal" ng-controller="openMessageModalController as vm">
+  <!--  <ion-view cache-view="false"> -->
+  <div style="background: transparent;">
+    <div class="bar bar-header" id="openMessageModalHeader">
+      <div class="h1 title">{{vm.messageTypeDisplay}}</div>
+    </div>
+
+    <div class="has-header" id="ConnectionResponseOpenText" ng-show="vm.messageType=='connectionResponse'">
+      <div>
+        <p>
+          <canvas id='OpenMessageModalConnectionResponseAvatarImage' height=80 width=80>
+          </canvas>{{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br>
+        </p>
+      </div>
+
+      <!-- <button class="button button-energized" ng-click="vm.closeModal()">
+            close
+          </button> -->
+
+      <!-- <div class="bar bar-footer" id="connectionResponseFooterBar">
+            <button class="button button-energized" ng-click="vm.closeModal()">
+              close
+            </button> -->
+      <!-- <div class="bar bar-footer" id="connectionResponseFooterBar"> -->
+      <button class="bar bar-footer button button-energized" id="connectionResponseFooterButton" ng-click="vm.closeModal()">
+        close
+      </button>
+
+      <!-- <button class="button button-energized" ng-click="vm.closeModal()">
+              close
+            </button> -->
+      <!-- </div> -->
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+</div>
+

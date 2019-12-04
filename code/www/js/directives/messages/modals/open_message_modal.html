@@ -3,7 +3,7 @@
  <!--  <ion-view cache-view="false"> -->
   <div style="background: transparent;">
     <div class="bar bar-header" id="openMessageModalHeader">
-      <div class="h1 title">{{vm.messageType}}</div>
+      <div class="h1 title">{{vm.messageTypeDisplay}}</div>
     </div>
     <!-- <p>{{vm.messageType}}</p> -->
     <!-- <p ng-show="vm.messageType=='connectionRequest'">{{vm.messageType}} show</p>
@@ -46,7 +46,12 @@
 
 
     <div class="has-header" id="ConnectionResponseOpenText" ng-show="vm.messageType=='connectionResponse'">
-        <div>{{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br></div>
+        <div>
+          <p>
+            <canvas id='OpenMessageModalConnectionResponseAvatarImage' height=80 width=80>
+            </canvas>{{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br>
+          </p>
+        </div>
 
         <!-- <button class="button button-energized" ng-click="vm.closeModal()">
             close
@@ -78,6 +83,17 @@
         </button>
 
     </div>
+
+    <div class="has-header" id="connectionLost" ng-show="vm.messageType=='connectionLost'">
+      <p><canvas id='OpenMessageModalConnectionRequestAvatarImage'
+        height=80 width=80>
+          </canvas>your connection with {{vm.params[0].message.sender_name}} has been lost<br></p>
+
+      <button class="button button-balanced">
+        Ok
+      </button>
+
+  </div>
 
 
 

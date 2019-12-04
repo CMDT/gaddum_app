@@ -1,0 +1,29 @@
+
+<div class="modal openMessageModal" id="openMessageModal" ng-controller="openMessageModalController as vm">
+  <div style="background: transparent;">
+    <div class="bar bar-header" id="openMessageModalHeader">
+      <div class="h1 title">{{vm.messageTypeDisplay}}</div>
+    </div>
+
+    <div class="has-header" id="connectionRequestOpen" ng-show="vm.messageType=='connectionRequest'">
+      <div id="ConnectionRequestOpenText">
+        <p>
+          <canvas id='OpenMessageModalConnectionRequestAvatarImage' height=80 width=80>
+          </canvas>{{vm.params[0].message.sender_name}} wants to add you as a friend<br>
+        </p>
+      </div>
+
+      <div class="bar bar-footer" id="connectionRequestFooterBar">
+        <button class="button button-balanced" ng-click="vm.connectionRequestClick('accepted')">
+          accept?
+        </button>
+
+        <button class="button button-assertive" ng-click="vm.connectionRequestClick('declined')">
+          decline
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</div>

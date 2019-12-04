@@ -2318,8 +2318,18 @@ div#scroller.ng-hide {
     width: 100%;
 }
 
+#ConnectionResponseOpenText div p{
+    font-size: 30px;
+    line-height: 30px;
+    padding-right: 5px;
+}
 
 #connectionResponseFooterButton {
     width: 97%;
     position: absolute;
+}
+
+#OpenMessageModalConnectionResponseAvatarImage{
+    float: left;
+    margin-right: 2px;
 }

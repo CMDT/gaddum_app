@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('openMessageModalModule',[])
+        .module('openMessageModalModule', [])
         .factory('openMessageModal', openMessageModal);
     openMessageModal.$inject = ['$ionicModal', '$rootScope', '$timeout'];
     function openMessageModal($ionicModal, $rootScope, $timeout) {
@@ -20,33 +20,46 @@
         var encodedImage = [];
 
         var myModal = {
-          open: open,
-          close: close,
-          getParams: getParams,
-          callback: callback,
-          cancel: cancel,
-          imgUpdate: imgUpdate,
-          getEncodedImage: getEncodedImage,
-          isOpen:false
+            open: open,
+            close: close,
+            getParams: getParams,
+            callback: callback,
+            cancel: cancel,
+            imgUpdate: imgUpdate,
+            getEncodedImage: getEncodedImage,
+            isOpen: false
         };
 
         return myModal;
 
-      function open(params, fnCallbackOk, fnCallbackCancel) {
-        myModal.isOpen = true;
+        function open(params, fnCallbackOk, fnCallbackCancel) {
+            myModal.isOpen = true;
             var service = this;
-
+            var templateURL = "";
             parameter = params;
+            console.log(parameter[0].message.message_type);
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel = fnCallbackCancel;
+
+            switch (parameter[0].message.message_type) {
+                case "connectionResponse":
+                    templateURL = 'js/directives/messages/modals/open_message_modal_connection_response.html';
+                    break;
+                case "connectionRequest":
+                    templateURL = 'js/directives/messages/modals/open_message_modal_connection_request.html';
+                    break;
+                default:
+                    templateURL = 'js/directives/messages/modals/open_message_modal.html';
+                    break;
+            }
             $ionicModal.fromTemplateUrl(
-                'js/directives/messages/modals/open_message_modal.html',
+                templateURL,
                 myModalInstanceOptions
             ).then(function (modalInstance) {
                 modalSave = modalInstance;
                 service.close = function () {
-                  closeAndRemove(modalInstance);
-                  myModal.isOpen = false;
+                    closeAndRemove(modalInstance);
+                    myModal.isOpen = false;
                 };
                 service.modalInstance = modalInstance;
                 return service.modalInstance.show();
