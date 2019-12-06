@@ -1,15 +1,15 @@
-<div class="modal openMessageModal" id="openMessageModalConnectionResponse" ng-controller="openMessageModalController as vm">
+<div class="modal openMessageModal" id="openMessageModalConnectionLost" ng-controller="openMessageModalController as vm">
   <!--  <ion-view cache-view="false"> -->
   <div style="background: transparent;">
     <div class="bar bar-header" id="openMessageModalHeader">
       <div class="h1 title">{{vm.messageTypeDisplay}}</div>
     </div>
 
-    <div class="has-header" id="ConnectionResponseOpenText" ng-show="vm.messageType=='connectionResponse'">
+    <div class="has-header" id="ConnectionResponseOpenText" ng-show="vm.messageType=='connectionLost'">
       <div>
         <p>
-          <canvas id='OpenMessageModalConnectionResponseAvatarImage' height=80 width=80>
-          </canvas>{{vm.params[0].message.sender_name}} has accepted your connection request<br> you are now friends<br>
+          <canvas id='OpenMessageModalConnectionLostAvatarImage' height=80 width=80>
+          </canvas>Your connection with {{vm.params[0].message.sender_name}} has been lost<br> sorry<br>
         </p>
       </div>
 

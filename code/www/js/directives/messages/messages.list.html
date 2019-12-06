@@ -13,7 +13,7 @@
             <!-- <div class="removeTextInButton">remove</div> -->
 
 
-        <canvas class="messageProfileCanvas" id={{message.message_ID}} ng-init='vm.getMessageSender(message.message_ID)'
+        <canvas class="messageProfileCanvas" id={{message.message_ID+$index}} ng-init='vm.getMessageSender(message.message_ID,$index)'
         height=80 width=80></canvas>
           <div class="messagesListSenderName">{{message.sender_name}}</div>
           <ion-option-button class="button-assertive removeFriends" ng-click="vm.deleteCheck($index)">

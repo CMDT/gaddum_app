@@ -37,19 +37,26 @@
             var service = this;
             var templateURL = "";
             parameter = params;
-            console.log(parameter[0].message.message_type);
+            console.log("MODAL MESSAGE TYPE: "+parameter[0].message.message_type);
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel = fnCallbackCancel;
 
             switch (parameter[0].message.message_type) {
                 case "connectionResponse":
                     templateURL = 'js/directives/messages/modals/open_message_modal_connection_response.html';
+                    console.log("Switch to connection response");
                     break;
                 case "connectionRequest":
                     templateURL = 'js/directives/messages/modals/open_message_modal_connection_request.html';
+                    console.log("Switch to connection request");
+                    break;
+                case "connectionLost":
+                    templateURL= 'js/directives/messages/modals/open_message_modal_connection_lost.html';
+                    console.log("Switch to connection lost");
                     break;
                 default:
                     templateURL = 'js/directives/messages/modals/open_message_modal.html';
+                    console.log("left at default");
                     break;
             }
             $ionicModal.fromTemplateUrl(

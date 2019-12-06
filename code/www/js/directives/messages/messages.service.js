@@ -50,38 +50,56 @@
         ]; */
 
         /* angular.merge(service.messagesList, [ */
-          service.messagesList=[
-          {"name":"message1","message":{sender:1,
-               state:1,
-               dateTime:0,
-               body:{"From":"11111111-5500-4cf5-8d42-228864f4807a","Content":"MessageContent1","message_ID":"MessageID1","message_type":"connectionRequest"}
-              },
+      service.messagesList = [
+        {
+          "name": "message1", "message": {
+            sender: 1,
+            state: 1,
+            dateTime: 0,
+            body: { "From": "11111111-5500-4cf5-8d42-228864f4807a", "Content": "MessageContent1", "message_ID": "MessageID1", "message_type": "connectionRequest" }
           },
-          {"name":"message2","message":{sender:2,
-               state:2,
-               dateTime:1,
-               body:{"From":"22222222-5500-4cf5-8d42-228864f4807a","Content":"MessageContent2","message_ID":"MessageID2","message_type":"connectionResponse"}
-              }
-          },
-          {"name":"message3","message":{sender:3,
-               state:3,
-               dateTime:2,
-               body:{"From":"33333333-5500-4cf5-8d42-228864f4807a","Content":"MessageContent3","message_ID":"MessageID3","message_type":"musicSharing"},
-              }
-          },
-          {"name":"message4","message":{sender:4,
-              state:3,
-              dateTime:3,
-              body:{"From":"44444444-5500-4cf5-8d42-228864f4807a","Content":"MessageContent4","message_ID":"MessageID4","message_type":"connectionRequest"}
-              }
-          },
-          {"name":"message5","message":{sender:5,
-              state:3,
-              dateTime:4,
-              body:{"From":"55555555-5500-4cf5-8d42-228864f4807a","Content":"MessageContent5","message_ID":"MessageID5","message_type":"connectionRequest"},
-              }
+        },
+        {
+          "name": "message2", "message": {
+            sender: 2,
+            state: 2,
+            dateTime: 1,
+            body: { "From": "22222222-5500-4cf5-8d42-228864f4807a", "Content": "MessageContent2", "message_ID": "MessageID2", "message_type": "connectionResponse" }
           }
-          ];
+        },
+        {
+          "name": "message3", "message": {
+            sender: 3,
+            state: 3,
+            dateTime: 2,
+            body: { "From": "33333333-5500-4cf5-8d42-228864f4807a", "Content": "MessageContent3", "message_ID": "MessageID3", "message_type": "musicSharing" },
+          }
+        },
+        {
+          "name": "message4", "message": {
+            sender: 4,
+            state: 3,
+            dateTime: 3,
+            body: { "From": "44444444-5500-4cf5-8d42-228864f4807a", "Content": "MessageContent4", "message_ID": "MessageID4", "message_type": "connectionRequest" }
+          }
+        },
+        {
+          "name": "message5", "message": {
+            sender: 5,
+            state: 3,
+            dateTime: 4,
+            body: { "From": "55555555-5500-4cf5-8d42-228864f4807a", "Content": "MessageContent5", "message_ID": "MessageID5", "message_type": "connectionRequest" },
+          }
+        },
+        {
+          "name": "message6", "message": {
+            sender: 5,
+            state: 4,
+            dateTime: 5,
+            body: { "From": "55555555-5500-4cf5-8d42-228864f4807a", "Content": "THIS MESSAGE TYPE HAS NO CONTENT", "message_ID": "MessageID5", "message_type": "connectionLost" },
+          }
+        }
+      ];
 
 
 

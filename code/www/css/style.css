@@ -2278,7 +2278,42 @@ div#scroller.ng-hide {
     top: 6%;
     height: 79%;
     background-image: var(--color-secondaryBackground);
-  }
+}
+
+/* .openMessageModalConnectionRequest{
+    padding:4px;
+    width: 85%;
+    position: absolute;
+    left: 7.5%;
+    top: calc(50% - 22%);
+    height: 22%;
+    background-image: var(--color-secondaryBackground);
+} */
+
+#openMessageModalConnectionRequest{
+    top: calc(50% - 22%) !important;
+    height: 22% !important;
+}
+
+#openMessageModalConnectionResponse{
+    height: 50% !important;
+    top: calc(50% - 25%) !important;
+}
+
+#openMessageModalConnectionLost{
+    height: 50% !important;
+    top: calc(50% - 25%) !important;
+}
+
+/* .openMessageModal{
+    padding:4px;
+    width: 85%;
+    position: absolute;
+    left: 7.5%;
+    top: 6%;
+    height: 79%;
+    background-image: var(--color-secondaryBackground);
+} */
 
 #connectionRequestFooterBar{
     background: transparent;
@@ -2325,11 +2360,19 @@ div#scroller.ng-hide {
 }
 
 #connectionResponseFooterButton {
-    width: 97%;
+    /* width: 97%; */
     position: absolute;
+    width: 40%;
+    left: calc(50% - 20%);
+    /* calc ( middle - half width) */
 }
 
 #OpenMessageModalConnectionResponseAvatarImage{
+    float: left;
+    margin-right: 2px;
+}
+
+#OpenMessageModalConnectionLostAvatarImage{
     float: left;
     margin-right: 2px;
 }

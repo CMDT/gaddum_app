@@ -40,15 +40,19 @@
           case "connectionRequest":
             vm.messageTypeDisplay="Connection Request";
             canvas=['OpenMessageModalConnectionRequestAvatarImage'];
-            break;      
+            break;
+          case "connectionLost":
+            vm.messageTypeDisplay="Connection Lost";
+            canvas=['OpenMessageModalConnectionLostAvatarImage'];
+            break;
         default:
             vm.messageTypeDisplay="Unrecognised message type";
-            canvas=['OpenMessageModalConnectionRequestAvatarImage','OpenMessageModalConnectionResponseAvatarImage']
+            canvas=['OpenMessageModalConnectionRequestAvatarImage','OpenMessageModalConnectionResponseAvatarImage'];
           break;
       }
       
       setTimeout(function() {
-        console.log("finding canvas");
+        console.log("finding canvas",canvas);
         console.time('canvasFinding');
         
         var id=findCanvas(canvas);
@@ -80,6 +84,7 @@
 
     vm.connectionRequestClick=function(response){
       console.log(response);
+      openMessageModal.
     };
 
     vm.closeModal=function(){

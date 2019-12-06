@@ -118,7 +118,7 @@
 
     ]
 
-    vm.getMessageSender = function (currentMessageID) {
+    vm.getMessageSender = function (currentMessageID, index) {
       var sender = null;
       vm.messages.forEach(function (message) {
         if (message.message_ID == currentMessageID) {
@@ -126,8 +126,12 @@
         }
       });
       //console.log("sender/id"+sender,currentMessageID)
-      vm.createMessageProfileGraphic(sender, currentMessageID);
+      console.log("message index: ",index);
+      
+      var canvasid= currentMessageID+index;
+      vm.createMessageProfileGraphic(sender, canvasid);
     }
+
     var scale = 8;
     vm.createMessageProfileGraphic = function (friendID, messageid) {
       setTimeout(() => {
@@ -327,15 +331,34 @@
       }
     }
 
+    function friendResponse(response){
+      if (response=="accept") {
+        console.log("accepted friend");
+      } else {
+        console.log("reject");
+      }
+    }
+
     function callback(params){
       console.log("callback params",params);
       vm.modalOpen=false;
+      switch (params.type) {
+        case "connectionRequest":
+                console.log("run ConnectionResponse(params.body)");
+          break;
+      
+        default:
+                console.log("callback does not run function");
+          break;
+      }
     };
 
     function cancel(params){
       console.log("cancel params",params);
       vm.modalOpen=false;
     };
+
+    
 
     init();
 
