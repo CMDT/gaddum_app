@@ -46,9 +46,9 @@
     };
     service.message_type_endpoints = {
       0: "/messages",
-      1: "/connections",
-      2: "/connections",
-      3: "/connections",
+      1: "/messages",
+      2: "/messages",
+      3: "/messages",
       4: "/messages",
       5: "/messages"
     };
@@ -56,12 +56,12 @@
     service.initialise = function initialise() {
       var deferred = $q.defer();
       try {
-        /* pushService.initialisePush( function pushInitialisedCompletely( message ) {
+        pushService.initialisePush( function pushInitialisedCompletely( message ) {
           console.log( "push signed in, got registration message ", message );
           userSettingsService.asyncSet(service.deviceIdKey, message.registrationId, "string" );
           pushService.setCallback(service.inboundHandler);
           deferred.resolve( message );
-        }); */
+        }); 
       } catch (err) {
         console.log( "Error starting up messagingService - " , err );
         throw( "error starting messagingService - " , err );
@@ -80,9 +80,9 @@
       );
     };
 
-    service.requestConnection = function requestConnection(cUUID) {
+    service.requestConnection = function requestConnection(payload) {
       return(
-        pushService.getConnectionUUID()
+        pushService.getConnectionUUID(payload)
       );
     };
 
@@ -142,14 +142,26 @@
 
     };
 
+    /*
+    MessageRequest {
+//      connection_id (string, optional): the uuid of the connection to which the message is to be sent ,
+//      sender_id (string): the self-assigned uuid of the sender. Helps disambiguation ,
+//      message_id (string): the self-assigned uuid of the message. Helps disambiguation ,
+//      message_type (integer): message type: list of supprted types available from /message_types ,
+      sender_role (integer): sender role: list of supported types available from /user_roles ,
+      payload (string): base64 encoded payload. format known to both sending and receiving parties. ,
+      payload_format_type (integer, optional): payload format type, known to bo
+    }
+    */
+
     service.sendMessage = function sendMessage( p ) {
       /*if(p.payload.hasOwnProperty("dateStamp")===false){
         p.payload.dateStamp = new Date().getTime();
         }*/
       var endpoint = service.message_type_endpoints[0];
-      if(p.payload.hasOwnProperty("message_id")===false) {
-        p.payload.uuid = utilitiesService.createUuid()
-      }
+      //if(p.payload.hasOwnProperty("message_id")===false) {
+      //  p.payload.uuid = utilitiesService.createUuid();
+      //}
       if(p.hasOwnProperty("message_type")===false) {
         p.message_type = service.message_type.MESSAGE;
       }

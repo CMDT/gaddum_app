@@ -90,15 +90,22 @@ const SERVER_ROOT = "https://rescuestationpush.herokuapp.com:443"; // heroku ser
 
       service.push.on('error', function (error) {
         console.log(error);
+
         throw(error);
       });
 
     };
 
     // get a connection UUID from the server
-    service.getConnectionUUID = function getConnectionUUID(){
-      return ( $http.post( SERVER_ROOT + "/connections" ) );
-    };
+    service.getConnectionUUID = function getConnectionUUID(payload) {
+      return (
+        $http ({
+          method: 'POST',
+          url: SERVER_ROOT + "/connections",
+          data: payload
+        })
+      );
+    }; 
 
     service.disconnect = function disconnect(cUUID) {
       console.log("push.service:disconnect - called with cUUID of " + String(cUUID) );
@@ -118,8 +125,10 @@ const SERVER_ROOT = "https://rescuestationpush.herokuapp.com:443"; // heroku ser
 
       var sendRequest = { method: 'POST',
                           url: SERVER_ROOT + endpoint,
-                          data: JSON.stringify(payload)
-                         };
+                          data: payload
+                        };
+
+      console.log("\n\nPAYLOAD:\n", JSON.stringify(payload));
 
       if(service.timeoutMs!==undefined) {
       	sendRequest.timeout = service.timeoutMs;

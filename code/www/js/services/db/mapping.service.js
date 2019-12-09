@@ -169,7 +169,7 @@
             var result = [];
             queries.forEach(function(query){
 
-                //console.log("QUERY: FUNCTION: " + query.function);
+                console.log("QUERY: FUNCTION: " + query.function);
                 
                 var sql = FUNCTION_TO_SQL[query.function];
                 var params = query.params;

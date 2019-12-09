@@ -11,7 +11,8 @@
       'userSettingsService',
       'profileService',
       'SharedProfile',
-      'ConnectionRequestPayload'
+      'ConnectionRequestPayload',
+      'utilitiesService'
   ];
 
   function friendsAddFriendModalController(
@@ -22,6 +23,7 @@
     profileService,
     SharedProfile,
     ConnectionRequestPayload,
+    utilitiesService
   ) {
 
     var vm = angular.extend(this, {
@@ -64,28 +66,55 @@
         cordova.plugins.barcodeScanner.scan(
           function ( scan ) {
             profileService.asyncGetUserProfile().then(function(profile){
-              var myProfile = SharedProfile.create_from_vars(profile[ profileService.SETTINGS.AVATAR_NAME ],
-                                                             profile[ profileService.SETTINGS.AVATAR_GRAPHIC ],
-                                                             profile[ profileService.SETTINGS.PROFILE_ID ],
-                                                             profile[ profileService.SETTINGS.DEVICE_ID ]);
+              var myProfile = SharedProfile.create_from_vars(
+                profile[ profileService.SETTINGS.AVATAR_NAME ],
+                profile[ profileService.SETTINGS.AVATAR_GRAPHIC ],
+                profile[ profileService.SETTINGS.PROFILE_ID ],
+                profile[ profileService.SETTINGS.DEVICE_ID ]
+              );
               var scannedProfile = SharedProfile.create_from_scan(scan.text);
-              var connectionRequestPayload = ConnectionRequestPayload.build( myProfile, scannedProfile );
-              messagingService.sendMessage(
-                {
-                  message_type: messagingService.message_type.CONNECTION_REQUEST,
-                  destination_id: [ scannedProfile.fcmDeviceId ],
-                  payload: connectionRequestPayload
-                }
+
+              var connectionRequestPayload = ConnectionRequestPayload.build(myProfile, scannedProfile);
+              var connectionUUID = messagingService.requestConnection(
+                connectionRequestPayload
               ).then(
-                function() {
-                  // sent okay
-                  alert("sent");
-                  vm.addFriendsModalNext();
+                function(response){
+                  console.log("got uuid: ",response.data.id);
+
+                  messagingService.sendMessage(
+                    {
+                      connection_id: response.data.id,
+                      sender_id: profile[ profileService.SETTINGS.PROFILE_ID ],
+                      message_id: utilitiesService.createUuid(),
+                      message_type: messagingService.message_type.CONNECTION_REQUEST,
+                      sender_role: 0,
+                      destination_id: scannedProfile.fcmDeviceId ,
+                      recipient_id:  scannedProfile.fcmDeviceId ,
+                      payload: btoa(connectionRequestPayload)
+                    }
+                  ).then(
+                    function(data) {
+                      // sent okay
+                      console.log("sent - response is ", data);
+                      alert("sent");
+                      // @TODO FOLLOWING NEEDS TO WORK ACROSS RESTARTS SO WE NEED TO BE ABLE TO RECREATE THE RESPONSES
+                      messagingService.addInboundMessageCallback(connectionRequestPayload.uuid, function(message){
+                        if(message.uuid===connectionRequestPayload.uuid) {
+                          // this probably our response
+                        }
+                      });
+                      // END OF FOLLOWING
+                      vm.addFriendsModalNext();
+                    },
+                    function(error){
+                      // error
+                      console.log(error);
+                      alert("error senging");
+                    }
+                  );
                 },
-                function(error){
-                  // error
-                  console.log(error);
-                  alert("error senging");
+                function(e){
+                  console.log("error getting UUID:", e);
                 }
               );
             });
