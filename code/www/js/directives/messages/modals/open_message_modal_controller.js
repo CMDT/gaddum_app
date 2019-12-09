@@ -84,7 +84,7 @@
 
     vm.connectionRequestClick=function(response){
       console.log(response);
-      openMessageModal.
+      //openMessageModal.
     };
 
     vm.closeModal=function(){
