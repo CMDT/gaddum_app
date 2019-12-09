@@ -89,7 +89,7 @@
       playlists.forEach(function (playlist) {
         playlistService.asyncGetPlaylistTracks(playlist).then(function (result) {
           //give trackInfo(mc.params) to spotify service
-          var trackGen = mc.params;
+          var trackGen = mc.params[0];
           trackGen.forEach(function (track) {
             result.push(track);
           });
