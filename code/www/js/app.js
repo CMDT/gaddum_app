@@ -186,9 +186,9 @@ angular.module('gaddum', [
             'userSettingChange', gaddumMusicProviderService.asyncUpdateFromSettings
           );
 
-          messagingService.initialise().then(function(d){
-            console.log("app.js: messagingService.initialised with return of ",d);
-          }); 
+//          messagingService.initialise().then(function(d){
+//            console.log("app.js: messagingService.initialised with return of ",d);
+//          }); 
 
           // -- the connection service warns the player when there is a change in conneciton state.
           // -- note: hasWifi is very useful: users may not want to use when on cellular.
@@ -233,12 +233,19 @@ angular.module('gaddum', [
                                     })
                                     .then(
                                       function () {
-                                        moodService.asyncInitialise()
+                                        messagingService.initialise()
                                           .then(
-                                            function () {
-                                              permissionsListenerService.initialise(null);
-                                              $state.go('gaddum.playlists');
-                                              deferred.resolve();
+                                            function(d){
+                                              //console.log("app.js: messagingService.initialised with return of ",d);
+                                              moodService.asyncInitialise()
+                                                .then(
+                                                  function () {
+                                                    permissionsListenerService.initialise(null);
+                                                    $state.go('gaddum.playlists');
+                                                    deferred.resolve();
+                                                  },
+                                                  deferred.reject
+                                                );
                                             },
                                             deferred.reject
                                           );
