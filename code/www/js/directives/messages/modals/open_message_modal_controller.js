@@ -84,7 +84,16 @@
 
     vm.connectionRequestClick=function(response){
       console.log(response);
-      //openMessageModal.
+      console.log("params[0]",vm.params[0]);
+      var modalResponse={"type":null,"body":{"from":null,"response":null}};
+      console.log("type= ",vm.params[0].message.message_type);
+      console.log("from = ",vm.params[0].message.From);
+      console.log("response...")
+      modalResponse.type=vm.params[0].message.message_type;
+      modalResponse.body.from=vm.params[0].message.From;
+      modalResponse.body.response=response;
+      openMessageModal.setResponse(modalResponse);
+      openMessageModal.close();
     };
 
     vm.closeModal=function(){

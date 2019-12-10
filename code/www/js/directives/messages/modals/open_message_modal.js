@@ -18,16 +18,19 @@
         var modalSave = null;
         var parameter = null;
         var encodedImage = [];
+        var response={};
 
         var myModal = {
             open: open,
             close: close,
             getParams: getParams,
-            callback: callback,
+            //callback: callback,
             cancel: cancel,
-            imgUpdate: imgUpdate,
-            getEncodedImage: getEncodedImage,
-            isOpen: false
+            //imgUpdate: imgUpdate,
+            //getEncodedImage: getEncodedImage,
+            isOpen: false,
+            //response: {},
+            setResponse:setResponse
         };
 
         return myModal;
@@ -37,6 +40,7 @@
             var service = this;
             var templateURL = "";
             parameter = params;
+            response={};
             console.log("MODAL MESSAGE TYPE: "+parameter[0].message.message_type);
             $scope.fnCallbackOk = fnCallbackOk;
             $scope.fnCallbackCancel = fnCallbackCancel;
@@ -79,7 +83,7 @@
             if (modalSave) {
 
                 $timeout(function () {
-                    $scope.fnCallbackOk(encodedImage);
+                    $scope.fnCallbackOk(response);
                     modalSave.remove();
                     modalSave = null;
 
@@ -94,21 +98,27 @@
                 });
         }
 
-        function callback(newData) {
+        /* function callback(newData) {
             $scope.fnCallbackOk(encodedImage);
+        } */
+
+        function setResponse(userResponse){
+            //$scope.response=response;
+            response=userResponse;
+            console.log("set response as: ",response);
         }
 
-        function imgUpdate(modalImage, modalColor) {
+        /* function imgUpdate(modalImage, modalColor) {
             encodedImage = [modalImage, modalColor];
-        }
+        } */
 
         function cancel() {
             //$scope.fnCallbackOk(encodedImage);
             $scope.fnCallbackCancel();
         }
-        function getEncodedImage() {
+        /* function getEncodedImage() {
             return encodedImage;
-        }
+        } */
     }
 })();
 

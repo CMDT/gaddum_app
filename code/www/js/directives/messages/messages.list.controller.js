@@ -344,7 +344,7 @@
       vm.modalOpen=false;
       switch (params.type) {
         case "connectionRequest":
-                console.log("run ConnectionResponse(params.body)");
+                console.log("run ConnectionResponse(params.body)",params.body);
           break;
       
         default:
