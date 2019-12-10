@@ -141,6 +141,7 @@
         console.log( error );
         return;
       }
+      console.log("BUILT FROM SCAN:",profile);
       return profile;
     };
 

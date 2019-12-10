@@ -19,7 +19,8 @@
     '$scope',
     'spinnerService',
     '$ionicSlideBoxDelegate',
-    'SharedProfile'
+    'SharedProfile',
+    'userSettingsService'
   ];
 
   function control(
@@ -36,7 +37,8 @@
     $scope,
     spinnerService,
     $ionicSlideBoxDelegate,
-    SharedProfile
+    SharedProfile,
+    userSettingsService
   ) {
     var vm = angular.extend(this, {
       scrollGenre: true,
@@ -62,7 +64,7 @@
         102,
         0
       ],
-      "device_id": "dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
+      "device_id": ""
     };
 
     vm.allGenres = [];
@@ -93,6 +95,12 @@
             spinnerService.spinnerOff();
           }
         )
+      );
+      userSettingsService.asyncGet(profileService.SETTINGS.device_id).then(
+        function(device_id) {
+          console.log("PROFILE CONTROLLER: DEVICE ID GOT IS ",device_id);
+          vm.userProfile[ profileService.SETTINGS.device_id ] = device_id;
+        }
       );
       createModalList();
       gaddumShortcutBarService.setContextMenu(vm.conMenu);
@@ -259,7 +267,7 @@
             { "allGenres": vm.allGenres },
             { "userGenres": vm.selectedGenres },
             { "userProfile": vm.userProfile },
-            {"close":true}
+            { "close": true }
           ];
           profileEditModal.open(modalParams, callback, refresh);
           deferred.resolve();
@@ -417,13 +425,13 @@
               asyncPopulateProfile();
               setTimeout(function(){
                 init();
-                if (profileService.getFirstRunFlag()==true && profileDetails.name!="Defaulthony Nameson") {
+                if (profileService.getFirstRunFlag()==true && profileDetails.name!=DEFAULT_NAME) {
                   profileService.setFirstRunFlag(false);
                   var slideCounter=0;
                   while ( $($("#main_wrapper").find("ion-slide")[slideCounter]).attr("ion-slide-tab-label") != "Mood") {
                     slideCounter++;
                   }
-                  $ionicSlideBoxDelegate.slide(slideCounter)
+                  $ionicSlideBoxDelegate.slide(slideCounter);
                 }
               }, 200);
             },

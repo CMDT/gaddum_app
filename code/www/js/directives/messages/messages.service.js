@@ -20,7 +20,7 @@
 
     // dummy some data
     /* angular.merge(service.messagesList, {
-      "1":{sender:1,
+b      "1":{sender:1,
            state:1,
            dateTime:0,
            body:"First Message"

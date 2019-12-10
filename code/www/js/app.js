@@ -53,7 +53,7 @@ angular.module('gaddum', [
   'gaddum.time',
   'gaddum.connection',
   'playlistCreateModule',
-  'gaddum.httpInterceptor',
+  //'gaddum.httpInterceptor',
   'FriendsAddFriendModule',
   'push',
   'gaddum.newMessageIcon',
@@ -235,8 +235,7 @@ angular.module('gaddum', [
                                       function () {
                                         messagingService.initialise()
                                           .then(
-                                            function(d){
-                                              //console.log("app.js: messagingService.initialised with return of ",d);
+                                            function(){
                                               moodService.asyncInitialise()
                                                 .then(
                                                   function () {
@@ -263,7 +262,7 @@ angular.module('gaddum', [
                   );
               },
               deferred.reject
-            )
+            );
 
           return deferred.promise;
         }

@@ -12,6 +12,8 @@
     'pubsubService',
     'userSettingsService',
     'utilitiesService',
+    'profileService',
+    'allSettingsService',
     '$q'
   ];
   function messagingService(
@@ -20,21 +22,16 @@
     pubsubService,
     userSettingsService,
     utilitiesService,
+    profileService,
+    allSettingsService,
     $q
   ) {
 
     var service = {
-      callbacks: { },
-      deviceIdKey: "push_device_id" // @TODO DRY - it's in profileService.SETTINGS.DEVICE_ID
+      "push": pushService, // TEMP
+
+      callbacks: { }
     };
-
-    // aim to remove this - see also friendsAddFriendModalController.js, line ~70
-    service.__getDevKey = function __getDevKey() {
-      return pushService.registrationId;
-    };
-    // end of aim to remove this
-
-
 
     service.message_type = {
       "NONE":                0,
@@ -58,9 +55,20 @@
       try {
         pushService.initialisePush( function pushInitialisedCompletely( message ) {
           console.log( "push signed in, got registration message ", message );
-          userSettingsService.asyncSet(service.deviceIdKey, message.registrationId, "string" );
-          pushService.setCallback(service.inboundHandler);
-          deferred.resolve( message );
+//          userSettingsService.asyncSet('push_device_id'/*profileService.SETTINGS.device_id*/, message.registrationId, "string" );
+          allSettingsService.asyncSet('push_device_id', message.registrationId, "string" ).then(
+            function(v){
+              console.log("push init callback - ",v);
+              service.device_id_key = message.registrationId; // @todo this is wrong but a hack
+
+              pushService.setCallback(service.inboundHandler);
+              deferred.resolve();
+            },
+            function(error){
+              console.log("error:",error);
+            }
+          );
+
         }); 
       } catch (err) {
         console.log( "Error starting up messagingService - " , err );
@@ -75,9 +83,13 @@
     service.unsubscribe = pushService.unsubscribe;
 
     service.getDeviceId = function getDeviceId() {
-      return(
+      var deferred = $q.defer();
+      deferred.resolve(service.device_id_key);
+      return deferred.promise;
+
+      /*return(
         userSettingsService.asyncGet( service.deviceIdKey )
-      );
+      );*/
     };
 
     service.requestConnection = function requestConnection(payload) {
@@ -90,7 +102,7 @@
       userSettingsService.asyncGet("push_device_id").then(function(cUUID){
         pushService.disconnect(cUUID).then(function(){
           service.deviceId = null;
-          userSettingsService.asyncSet(service.deviceIdKey, "", "string");
+          userSettingsService.asyncSet(profileService.SETTINGS.DEVICE_ID,"","string");
         });
       });
     };
@@ -162,13 +174,13 @@
       //if(p.payload.hasOwnProperty("message_id")===false) {
       //  p.payload.uuid = utilitiesService.createUuid();
       //}
-      if(p.hasOwnProperty("message_type")===false) {
-        p.message_type = service.message_type.MESSAGE;
-      }
-      if(p.hasOwnProperty("message_type")===true) {
-        endpoint = service.message_type_endpoints[ p.message_type ];
-      }
-      p.sender_id = pushService.registrationId;
+      //if(p.hasOwnProperty("message_type")===false) {
+      //  p.message_type = service.message_type.MESSAGE;
+      //}
+      //if(p.hasOwnProperty("message_type")===true) {
+      //  endpoint = service.message_type_endpoints[ p.message_type ];
+      //}
+      //p.sender_id = pushService.registrationId;
 
       return( pushService.sendPayload( p, endpoint ) );
     };

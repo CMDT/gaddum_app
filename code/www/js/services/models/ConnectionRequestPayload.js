@@ -19,7 +19,7 @@
       this.payload = {
         "partyOneProfile": partyOneProfile,
         "partyTwoProfile": partyTwoProfile,
-        "uuid": utilitiesService.createUuid()
+        //"uuid": utilitiesService.createUuid()
       };
 //      this.getId = function() {
 //        return this.id;

@@ -70,51 +70,41 @@
                 profile[ profileService.SETTINGS.AVATAR_NAME ],
                 profile[ profileService.SETTINGS.AVATAR_GRAPHIC ],
                 profile[ profileService.SETTINGS.PROFILE_ID ],
-                profile[ profileService.SETTINGS.DEVICE_ID ]
+                //profile[ profileService.SETTINGS.DEVICE_ID ] // this and next line wrong but save my sanity
+                messagingService.device_id_key
               );
               var scannedProfile = SharedProfile.create_from_scan(scan.text);
 
               var connectionRequestPayload = ConnectionRequestPayload.build(myProfile, scannedProfile);
-              var connectionUUID = messagingService.requestConnection(
-                connectionRequestPayload
+              connectionRequestPayload.recipient_id = scannedProfile.fcmDeviceId;
+              messagingService.sendMessage(
+                {
+                  //connection_id: scannedProfile.fcmDeviceId, //response.data.id,
+                  sender_id: messagingService.push.registrationId, // profile[ profileService.SETTINGS.DEVICE_ID ],
+                  message_id: utilitiesService.createUuid(),
+                  message_type: messagingService.message_type.CONNECTION_REQUEST,
+                  sender_role: 0,
+                  to:  scannedProfile.fcmDeviceId ,
+                  recipient_id:  scannedProfile.fcmDeviceId ,
+                  payload: btoa( JSON.stringify(connectionRequestPayload) )
+                }
               ).then(
-                function(response){
-                  console.log("got uuid: ",response.data.id);
-
-                  messagingService.sendMessage(
-                    {
-                      connection_id: response.data.id,
-                      sender_id: profile[ profileService.SETTINGS.PROFILE_ID ],
-                      message_id: utilitiesService.createUuid(),
-                      message_type: messagingService.message_type.CONNECTION_REQUEST,
-                      sender_role: 0,
-                      destination_id: scannedProfile.fcmDeviceId ,
-                      recipient_id:  scannedProfile.fcmDeviceId ,
-                      payload: btoa(connectionRequestPayload)
+                function(data) {
+                  // sent okay
+                  console.log("sent - response is ", data);
+                  alert("sent");
+                  messagingService.addInboundMessageCallback(connectionRequestPayload.uuid, function(message){
+                    if(message.uuid===connectionRequestPayload.uuid) {
+                      // this probably our response
                     }
-                  ).then(
-                    function(data) {
-                      // sent okay
-                      console.log("sent - response is ", data);
-                      alert("sent");
-                      // @TODO FOLLOWING NEEDS TO WORK ACROSS RESTARTS SO WE NEED TO BE ABLE TO RECREATE THE RESPONSES
-                      messagingService.addInboundMessageCallback(connectionRequestPayload.uuid, function(message){
-                        if(message.uuid===connectionRequestPayload.uuid) {
-                          // this probably our response
-                        }
-                      });
-                      // END OF FOLLOWING
-                      vm.addFriendsModalNext();
-                    },
-                    function(error){
-                      // error
-                      console.log(error);
-                      alert("error senging");
-                    }
-                  );
+                  });
+                  // END OF FOLLOWING
+                  vm.addFriendsModalNext();
                 },
-                function(e){
-                  console.log("error getting UUID:", e);
+                function(error){
+                  // error
+                  console.log(error);
+                  alert("error senging");
                 }
               );
             });

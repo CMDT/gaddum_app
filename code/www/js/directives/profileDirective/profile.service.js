@@ -12,6 +12,8 @@
       'dataApiService',
       'AvatarGraphic',
       'SettingIdentifier',
+      'userSettingsService',
+      'allSettingsService',
       'utilitiesService'
     ];
 
@@ -22,6 +24,8 @@
       dataApiService,
       AvatarGraphic,
       SettingIdentifier,
+      userSettingsService,
+      allSettingsService,
       utilitiesService
     ) {
 
@@ -99,6 +103,7 @@
         ]
       };
 
+
       var VALID_TYPES = SettingIdentifier.VALID_TYPES;
 
 
@@ -131,28 +136,23 @@
             return gaddumMusicProviderService.asyncSetGenres(newGenres);
         };
 
-        
-
         function asyncGetGenres() {
             return gaddumMusicProviderService.asyncGetGenres();
         };
-
-
-
 
         function asyncGetUserProfile() {
 
             var deferred = $q.defer();
             var promises = [];
 
-            promises.push(asyncGetProfileId());
-            promises.push(asyncGetAvatarName());
-            promises.push(asyncGetAvatarGraphic());
-            promises.push(asyncGetDeviceId());
+          promises.push(asyncGetProfileId());
+          promises.push(asyncGetAvatarName());
+          promises.push(asyncGetAvatarGraphic());
+          promises.push(asyncGetDeviceId()); 
 
             $q.all(promises).then(
                 function onSuccess(results){
-                    
+
                     var result = {};
                     result[SETTINGS.PROFILE_ID]=results[0];
                     result[SETTINGS.AVATAR_NAME]=results[1];
@@ -169,27 +169,21 @@
                 function onError(error){
                     deferred.reject(error);
                 }
-            )
-
-
+            );
 
             return deferred.promise;
         };
 
-        function asyncGetDeviceId(){
-            var deferred = $q.defer();
-
-            $timeout(
-              function(){
-                //@TODO this should return an actual device id?!?
-                    deferred.resolve("dJUr6sA28ZY:A9A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf");
-                }
-            );
-
-
-            return deferred.promise;
-        }
-
+      var asyncGetDeviceId = function asyncGetDeviceId(){
+        var deferred = $q.defer();
+        allSettingsService.asyncGet( 'push_device_id' ).then( //service.SETTINGS.DEVICE_ID).then(
+          function(device_id){
+            console.log("profile.service.js:asyncGetDeviceId, got push_device_id", device_id);
+            deferred.resolve(device_id);
+          }
+        );
+        return deferred.promise;
+      };
 
         function asyncGetProfileId() {
           var deferred = $q.defer();
@@ -284,8 +278,6 @@
           getFirstRunFlag: getFirstRunFlag,
           "SETTINGS": SETTINGS
         };
-
-
 
         return service;
     };
