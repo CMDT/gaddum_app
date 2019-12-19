@@ -102,7 +102,7 @@
       userSettingsService.asyncGet("push_device_id").then(function(cUUID){
         pushService.disconnect(cUUID).then(function(){
           service.deviceId = null;
-          userSettingsService.asyncSet(profileService.SETTINGS.DEVICE_ID,"","string");
+          allSettingsService.asyncSet(profileService.SETTINGS.DEVICE_ID,"","string");
         });
       });
     };

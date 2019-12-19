@@ -163,7 +163,7 @@ ion-modal
     right: 20%;
     bottom: 20%;
     left: 20%;
-    min-height: 240px;
+    min-height: 200px;
     width: 60%;
     border-radius: 1rem;
     border:solid black 0.3rem; 
@@ -843,8 +843,7 @@ input::placeholder{
     border: solid black;
 }
 .modalBody{
-    position: absolute;
-    top: 20%;
+    margin-top: 10px;
 }
 .modalHeader{
     position:absolute;
@@ -1947,6 +1946,14 @@ div#scroller.ng-hide {
     width: 90%;
     background-image: var(--color-secondaryBackground);
 }
+.modalFriendsAdd{
+    height: 36%;
+    top: 35%;
+    background-image: var(--color-secondaryBackground);
+}
+.addFriendTitle{
+    font-size: 22px;
+}
 .modalPlaylistView{
     position: absolute;
     left: 5%;
@@ -2254,12 +2261,17 @@ div#scroller.ng-hide {
   #messagesListscroll{
     position: absolute;
     top: 0rem;
-    height: 27.5rem;
+    bottom: 50px;
+    /* height: 27.5rem; */
     /* height: 90%;
     width:90%;
     left:5%;
     border-radius: 3em; */
     
+}
+.addFriendsModalButton{
+    left: 5px;
+    position: relative;
 }
 
 .messagesListSenderName{
@@ -2291,18 +2303,18 @@ div#scroller.ng-hide {
 } */
 
 #openMessageModalConnectionRequest{
-    top: calc(50% - 22%) !important;
-    height: 22% !important;
+    top: 33% !important;
+    height: 27% !important;
 }
 
 #openMessageModalConnectionResponse{
-    height: 50% !important;
-    top: calc(50% - 25%) !important;
+    height: 30% !important;
+    top: 33% !important;
 }
 
 #openMessageModalConnectionLost{
-    height: 50% !important;
-    top: calc(50% - 25%) !important;
+    height: 30% !important;
+    top: 33% !important;
 }
 
 /* .openMessageModal{
@@ -2335,11 +2347,11 @@ div#scroller.ng-hide {
 
 #ConnectionRequestOpenText{
     position: absolute;
-    top: 22%;
+    top: 27%;
 }
 #ConnectionRequestOpenText p{
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 20px;
 }
 #openMessageModalHeader{
     background-color: transparent;
@@ -2354,8 +2366,8 @@ div#scroller.ng-hide {
 }
 
 #ConnectionResponseOpenText div p{
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 20px;
     padding-right: 5px;
 }
 

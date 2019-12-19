@@ -73,6 +73,7 @@
                 //profile[ profileService.SETTINGS.DEVICE_ID ] // this and next line wrong but save my sanity
                 messagingService.device_id_key
               );
+              console.log("heyo scan ",scan.text)
               var scannedProfile = SharedProfile.create_from_scan(scan.text);
 
               var connectionRequestPayload = ConnectionRequestPayload.build(myProfile, scannedProfile);

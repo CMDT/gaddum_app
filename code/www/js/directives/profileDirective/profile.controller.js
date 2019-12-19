@@ -224,7 +224,7 @@
             vm.encodedProfile = profile;
           });
 
-          //vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
+          vm.encodedProfile = btoa("{\"profile\": " + JSON.stringify({ profile_id: vm.userProfile.profile_id, avatar_name: vm.userProfile.avatar_name, avatar_graphic: vm.userProfile.avatar_graphic.getValues(), avatar_graphic_colour: vm.userProfile.avatar_graphic.getColour(), device_id: vm.userProfile.push_device_id }) + "}");
           deferred.resolve(true);
         },
         function fail(error) {

@@ -1,24 +1,24 @@
-<div class="modal" ng-controller="friendsAddFriendModalController as vm">
-  <header class="bar bar-header bar-positive modalHeader">
-    <h1 id="addFriendsModalHeaderText" class="title" ng-bind="vm.modalTitles[vm.modalpage]"></h1>
+<div class="modal modalFriendsAdd" ng-controller="friendsAddFriendModalController as vm">
+  <!-- <header class="bar bar-header bar-positive modalHeader"> -->
+    <h1 id="addFriendsModalHeaderText" class="title addFriendTitle" ng-bind="vm.modalTitles[vm.modalpage]"></h1>
     <!-- <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div> -->
-  </header>
+  <!-- </header> -->
   <content has-header="true" padding="true">
     <div class="modalBody">
 
 
       <div ng-show="vm.modalpage===1">
         <p>You're about to request connection to your friend. You can only do this when you are together. Ask your friend to show you their Gaddum app, at the profile page</p>
-        <button class="addFriendsModalCancelButton" ng-click="vm.addFriendsModalClose();">Cancel</button>
-        <button class="addFriendsModalPrevButton" disabled x-ng-click="vm.addFriendsModalPrev()">Prev</button>
-        <button class="addFriendsModalNextButton" ng-click="vm.addFriendsModalNext()">Next</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalClose();">Cancel</button>
+        <button class="addFriendsModalButton" disabled x-ng-click="vm.addFriendsModalPrev()">Prev</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalNext()">Next</button>
       </div>
 
       <div ng-show="vm.modalpage===2">
         <p>You should be able to see your friend's Gaddum profile screen. Press Next, to start scanning the QR code on their profile. This will begin your connection process.</p>
-        <button class="addFriendsModalCancelButton" ng-click="vm.addFriendsModalClose();">Cancel</button>
-        <button class="addFriendsModalPrevButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
-        <button class="addFriendsModalNextButton" ng-click="vm.addFriendsModalNext()">Next</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalClose();">Cancel</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalNext()">Next</button>
       </div>
 
       <div ng-show="vm.modalpage===3">
@@ -26,17 +26,17 @@
       </div>
 
       <div ng-show="vm.modalpage===4">
-        <p>Got it. Your connection request has been sent. Ask your friend to allow it. They'll see it in their Gaddum 'Messages' Tab. You can make as many requests as you like. Just go back to the scanner, by pressing 'Again'
-          <button class="addFriendsModalCancelButton" disabled x-ng-click="vm.addFriendsModalClose();">Cancel</button>
-          <button class="addFriendsModalPrevButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
-          <button class="addFriendsModalNextButton" ng-click="vm.addFriendsModalNext()">Next</button>
+        <p>Got it. Your connection request has been sent. Ask your friend to allow it. They'll see it in their Gaddum 'Messages' Tab. You can make as many requests as you like. Just go back to the scanner, by pressing 'Again'</p>
+          <button class="addFriendsModalButton" disabled x-ng-click="vm.addFriendsModalClose();">Cancel</button>
+          <button class="addFriendsModalButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
+          <button class="addFriendsModalButton" ng-click="vm.addFriendsModalNext()">Next</button>
       </div>
 
       <div ng-show="vm.modalpage===5">
         <p>All your connection requests have been sent. You can see if they successed in your 'Messages' tab.</p>
-        <button class="addFriendsModalCancelButton" disabled x-ng-click="vm.addFriendsModalClose();">Cancel</button>
-        <button class="addFriendsModalPrevButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
-        <button class="addFriendsModalFinishButton" ng-click="vm.addFriendsModalClose()" ng-show="vm.showFinishbutton===true">Finish</button>
+        <button class="addFriendsModalButton" disabled x-ng-click="vm.addFriendsModalClose();">Cancel</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalPrev()">Prev</button>
+        <button class="addFriendsModalButton" ng-click="vm.addFriendsModalClose()" ng-show="vm.showFinishbutton===true">Finish</button>
       </div>
 <!--
       <p id="addFriendsModalBodyText">You're about to request connection to your friend. You can only do this when you are together. Ask your friends to show you their Gaddum app, at the Profile page
