@@ -38,6 +38,8 @@
       friends: null,
       test: document.createElement("p"),
       showcamera:false,
+      searchText:"",
+      searching:false,
       scanner: new Instascan.Scanner({
         video: document.getElementById('preview'),
         continious: true,
@@ -78,13 +80,13 @@
       $ionicSlideBoxDelegate.enableSlide(true);
     };
 
-    var searchinput = document.getElementById("searchBox");
-        searchinput.addEventListener("keyup",function(event){
-          if (event.keyCode===13) {
-            event.preventDefault();
-            document.getElementById("searchButton").click();
-          }
-        });
+    // var searchinput = document.getElementById("searchBox");
+    //     searchinput.addEventListener("keyup",function(event){
+    //       if (event.keyCode===13) {
+    //         event.preventDefault();
+    //         document.getElementById("searchButton").click();
+    //       }
+    //     });
 
     vm.createProfileGraphic = function (id) {
 
@@ -158,13 +160,18 @@
 
     }
     
-    vm.search = function search() {
-      var searchInput = document.getElementsByName("searchTextInput");
-      var search = searchInput[0].value;
+    vm.search = function search(search) {
+      // var searchInput = document.getElementsByName("searchTextInput");
+      // var search = searchInput[0].value;
+      vm.searching = true;
       console.log(search);
       //clears vm.friends to prevent the canvas bug
       vm.friends=[];
-      setTimeout(function(){ vm.friends = friendsService.searchFriends(search); $scope.$apply(); }, 0);
+      friendsService.searchFriends(search)
+      .then(function(friends){
+        vm.searching = false;
+        vm.friends = friends;
+      });
     };
 
     vm.loadModal = function loadModal() {

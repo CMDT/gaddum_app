@@ -173,10 +173,11 @@
                beginFriend
         };
         function searchFriends(input){
+          var deferred = $q.defer();
           var tempFriends = [];
           var j = 0;
           if (input == null) {
-            return friendsDummy;
+            deferred.resolve(friendsDummy);
           } else {
             for (var i = 0; i < friendsDummy.length; i++) {
               // console.log(friendsDummy[i].profile.avatar_name)
@@ -186,8 +187,9 @@
                 j++;
               }
             }
-            return tempFriends;
+            deferred.resolve(tempFriends);
           }
+          return deferred.promise;
         }
 
         function getAllFriends(){
