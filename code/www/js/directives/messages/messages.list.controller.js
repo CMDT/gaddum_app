@@ -126,7 +126,7 @@
         }
       });
       //console.log("sender/id"+sender,currentMessageID)
-      console.log("message index: ",index);
+      // console.log("message index: ",index);
       
       var canvasid= currentMessageID+index;
       vm.createMessageProfileGraphic(sender, canvasid);

@@ -99,17 +99,16 @@
       var drawColour;
       for (var i = 0; i < vm.friends.length; i++) {
         if (vm.friends[i].profile.profile_id == id) {
-          if (vm.friends[i].profile.avatar_graphic_colour==null) {
+          if (vm.friends[i].profile.avatar_graphic.colour==null) {
             drawColour="#000000"
           }else{
-            drawColour=vm.friends[i].profile.avatar_graphic_colour;
+            drawColour=vm.friends[i].profile.avatar_graphic.colour;
           };
-          for (var j = 0; j < vm.friends[i].profile.avatar_graphic.length; j++) {
-            bin = vm.friends[i].profile.avatar_graphic[j].toString(2);
+          for (var j = 0; j < vm.friends[i].profile.avatar_graphic.values.length; j++) {
+            bin = vm.friends[i].profile.avatar_graphic.values[j].toString(2);
             for (var x = bin.length; x < 8; x++) {
               bin= "0"+bin;
             }
-            //console.log(bin);
             for (var k = 0; k < bin.length; k++) {
               if (bin[k] == "1") {
                 rect(k, j, nx, ny, drawColour, ctx);
