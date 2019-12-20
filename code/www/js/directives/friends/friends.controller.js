@@ -163,6 +163,7 @@
     vm.search = function search(search) {
       // var searchInput = document.getElementsByName("searchTextInput");
       // var search = searchInput[0].value;
+      $('#searchBox').blur();
       vm.searching = true;
       console.log(search);
       //clears vm.friends to prevent the canvas bug
