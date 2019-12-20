@@ -233,7 +233,7 @@
       );
       return deferred.promise;
     }
-
+    var checkIfAlreadyOpen = false;
     function asyncLaunchModal() {
       var deferred = $q.defer();
       $timeout(
@@ -247,8 +247,14 @@
             { "userGenres": vm.selectedGenres },
             { "userProfile": vm.userProfile }
           ];
-          profileEditModal.open(modalParams, callback, refresh);
-          deferred.resolve();
+          if(!checkIfAlreadyOpen){
+            profileEditModal.open(modalParams, callback, refresh);
+            checkIfAlreadyOpen = true;
+            deferred.resolve();
+          }
+          else{
+            deferred.reject;
+          }
         }
       );
 
@@ -269,8 +275,14 @@
             { "userProfile": vm.userProfile },
             { "close": true }
           ];
-          profileEditModal.open(modalParams, callback, refresh);
-          deferred.resolve();
+          if(!checkIfAlreadyOpen){
+            profileEditModal.open(modalParams, callback, refresh);
+            checkIfAlreadyOpen = true;
+            deferred.resolve();
+          }
+          else{
+            deferred.reject;
+          }
         },1000
       );
 
@@ -412,6 +424,7 @@
     var callbackflag = false;//an idea for a flag to change the way the cancell callback runs when the confirm button is pressed
 
     function callback(profileDetails) {
+      checkIfAlreadyOpen =false;
       //update everything on screen
       if (vm.name==DEFAULT_NAME || vm.name == null || vm.name === "") {
         profileService.setFirstRunFlag(true);
@@ -443,6 +456,7 @@
     };
 
     function refresh() {
+      checkIfAlreadyOpen = false;
       profileService.setModalOpenFlag(false);
       //refresh all the things
       if ((vm.userProfile.avatar_name == null || vm.userProfile.avatar_name == "") && profileService.getOpenModalFlag() == false) {
