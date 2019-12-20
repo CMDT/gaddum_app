@@ -1105,6 +1105,7 @@ input::placeholder{
     height: 70%;
   }
   .qrcode{
+    margin-top: 40px;
     border: 15px white solid;
     height: 95%;
   }
