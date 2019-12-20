@@ -10,12 +10,14 @@
     'playlistEditModal',
     'playlistService',
     'addToPlaylistWizard',
+    'shareWizard',
     'GenericTrack',
     'howAreYouModal',
     'MoodedPlaylist',
     'userProfilerService',
     'StatementCriteria',
-    '$ionicListDelegate'
+    '$ionicListDelegate',
+    'Payload'
   ];
 
   function playlistViewModalController(
@@ -24,12 +26,14 @@
     playlistEditModal,
     playlistService,
     addToPlaylistWizard,
+    shareWizard,
     GenericTrack,
     howAreYouModal,
     MoodedPlaylist,
     userProfilerService,
     StatementCriteria,
-    $ionicListDelegate
+    $ionicListDelegate,
+    Payload
   ) {
 
     var currentTrack = null;
@@ -165,7 +169,13 @@
       var StatCrit = StatementCriteria.build(emotion,currentTrack);
       playlistService.asyncMakeTrackStatement(StatCrit);
     }
-
+    function sharePlaylist(){
+      playlistViewModal.closeCheckFalse();
+      var payloadData = Payload.build(vm.params);
+      var shareParams = {payload: payloadData, payloadFormatId: 0};
+      shareWizard.open(shareParams,refreshTrack,modalCancel);
+    }
+    vm.sharePlaylist = sharePlaylist;
     vm.playPlaylist = playPlaylist;
     vm.asyncMakeTrackStatement=asyncMakeTrackStatement;
     vm.addToPlaylist=addToPlaylist;

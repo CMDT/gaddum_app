@@ -1,0 +1,47 @@
+<div class="modal addToPlaylistWizard" ng-controller="shareWizardModalController as sm">
+
+  <ion-content ng-hide="!sm.state">
+
+    <div style="width:100%;">
+
+      <h3 class="modalTitleAddPlaylist">Share Wizard</h3>
+
+      <p class="shareText">Select The Friends You Want To Share With.</p>
+    </div>
+    <ion-content class="shareListDiv">
+      <ion-list>
+        <ion-item ng-class-odd="'listodd'" ng-class-even="'listeven'" class="shareList" ng-repeat="friend in sm.displayArray"
+          can-swipe="true" class="item-remove-animate item item-complex" ng-touchstart="vm.preventSlideBox($event)"
+          ng-touchend="vm.allowSlideBox($event)" ng-mousedown="vm.preventSlideBox($event)" ng-mouseup="vm.allowSlideBox($event)"
+          ng-click="sm.friendSelected($index)">
+          <canvas class="shareCanvas" id={{friend.profile}} ng-init="sm.createProfileGraphic(friend.profile)"
+              height=40 width=40></canvas>
+            <p class="overflow ellipsis shareNames">{{friend.name}}</p>
+          <input class="shareCheckbox" type="checkbox" ng-model="friend.value" ng-change="sm.friendSelected($index)"></input>
+
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    <ion-footer-bar>
+      <button ng-click="sm.close()" class="button addToPlaylistButtonLeft">Cancel</button>
+      <button ng-click="sm.changeState()" class="button button-balanced addToPlaylistButtonRight" ng-disabled="sm.isNextDisabled()">Next</button>
+    </ion-footer-bar>
+  </ion-content>
+
+  <ion-content ng-hide="sm.state" class="howAreYouModal">
+
+    <div style="width:100%;">
+
+      <h3 class="modalTitleAddPlaylist">Share Wizard</h3>
+    </div>
+    <div class="addToPlaylistTextDiv">
+      <p class="shareWizardText">You're Going To Share A Playlist.</p>
+      <p class="shareWizardText">Are You Sure?</p>
+    </div>
+    <ion-footer-bar>
+      <button ng-click="sm.changeState()" class="button button-calm addToPlaylistButtonCenterTwo">Previous</button>
+      <button ng-click="sm.close()" class="button addToPlaylistButtonLeft">Cancel</button>
+      <button ng-click="sm.send()" class="button button-balanced addToPlaylistButtonRight">Yes</button>
+    </ion-footer-bar>
+  </ion-content>
+</div>

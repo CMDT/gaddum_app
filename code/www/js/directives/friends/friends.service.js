@@ -164,6 +164,23 @@
               /* "avatar_graphic_colour":"#FF00FF", */
               device_id: "dJUr6sA28ZY:A5A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
             }},
+            {"profile": {
+              "profile_id": "66666666-5500-4cf5-8d42-228864f4807a",
+              "avatar_name": "Laurie C-Butter",
+              "avatar_graphic":
+                {"values":[
+                  0,
+                  0,
+                  2,
+                  24,/* 60 */
+                  24,
+                  0,
+                  0,
+                  0
+                ],
+                "colour":"#FFF0FF"},
+              device_id: "dJUr6sA28ZY:A1A91bH-chjJ8lcq61ofrjoHjak3q6nCFALPGytdEsLzh2DacCx7ihhZHxd6pPSXYMhtx4MlcQekn1rzjB7c809aNzivPFu5jhA-SR6FWbvzfBsO8ySo6um8DVA9dgOgokzz0QU5vbEf"
+            }},
           ];
         var service = {
                deleteFriends,
@@ -176,7 +193,7 @@
           var deferred = $q.defer();
           var tempFriends = [];
           var j = 0;
-          if (input == null) {
+          if (input == "") {
             deferred.resolve(friendsDummy);
           } else {
             for (var i = 0; i < friendsDummy.length; i++) {

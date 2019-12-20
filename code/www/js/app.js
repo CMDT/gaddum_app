@@ -57,7 +57,9 @@ angular.module('gaddum', [
   'FriendsAddFriendModule',
   'push',
   'gaddum.newMessageIcon',
-  'openMessageModalModule'
+  'openMessageModalModule',
+  'gaddum.share',
+  'gaddum.send'
 ])
   .run([
     '$ionicPlatform',
