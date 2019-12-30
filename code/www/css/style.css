@@ -1625,6 +1625,13 @@ div#scroller.ng-hide {
       bottom: -50px !important;
   }
 
+.selectButtonProviderInfo{
+    background-color: #11c1f3;
+    color: white;
+    bottom: -50px !important;
+}
+  
+
   .playlistImportList{
       height:77%;
       top:13%;
@@ -2199,6 +2206,24 @@ div#scroller.ng-hide {
         width: 100%;
         left: 0;
     }
+  }
+  #personnelList{
+    position: relative;
+    bottom: 0%;
+    width: 94%;
+    height: 20%;
+    border-top: 1px dashed black;
+  }
+  #personnelList *{
+    background-color: transparent;
+    color: black;
+    border: 0;
+    text-decoration: none;
+    font-style: italic;
+  }
+  #personnelListItem{
+    padding-top: 0;
+    padding-bottom: 0;
   }
   #componentsList{
     position: relative;

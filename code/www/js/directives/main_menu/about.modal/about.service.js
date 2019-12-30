@@ -60,7 +60,7 @@
       return licenseArray;
     }
     function projectPersonnel() {
-      return "Laurie Cooper, Kei Gibbings, Dave Mee & Jothan Taylor";
+      return ["Laurie Cooper", "Kei Gibbings", "Dave Mee","Jothan Taylor"];
     }
     function gaddumLink() {
       return "Gaddum";

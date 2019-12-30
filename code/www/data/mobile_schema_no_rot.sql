@@ -211,7 +211,7 @@ INSERT INTO music_provider_settings (
                                     VALUES (
                                         'gaddumMusicProviderSpotifyService',
                                         'homepage_url',
-                                        NULL,
+                                        'https://www.spotify.com/uk',
                                         'string'
                                     );
 

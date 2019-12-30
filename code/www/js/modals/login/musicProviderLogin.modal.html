@@ -10,7 +10,12 @@
 
   <button  ng-click="ac.showSelector()" class="modalSelector" ><span class="selectSpan">{{ac.selectedNamedIdentifier.name}} </span><img src="css/arrow-down-b.svg" class="littleSelectArrow" /></button>
     <div style="margin-top:100px; text-align:center;">
-      <button ng-disabled="!ac.loginEnabled" class="button selectButtonLogin" ng-click="ac.asyncLogin()">login</button>
+      <button ng-disabled="!ac.loginEnabled" class="button selectButtonLogin" ng-click="ac.asyncLogin()">
+        <i class="icon ion-log-in"></i>
+      </button>
+      <a ng-disabled="!ac.infoEnabled" ng-href="{{ac.providerInfo}}" class="button selectButtonProviderInfo">
+        <i class="icon ion-information"></i>
+      </a>
    </div>
    <ion-spinner class="loginSpinner" ng-hide="!ac.busy" paused="true" name="circles" ></ion-spinner>
     </div>

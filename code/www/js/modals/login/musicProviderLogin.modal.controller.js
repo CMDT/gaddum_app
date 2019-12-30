@@ -12,7 +12,8 @@
     'gaddumMusicProviderService',
     'MusicProviderIdentifier',
     '$q',
-    'spinnerService'
+    'spinnerService',
+    'providerSettingsService'
 
   ];
 
@@ -23,10 +24,11 @@
     gaddumMusicProviderService,
     MusicProviderIdentifier,
     $q,
-    spinnerService
+    spinnerService,
+    providerSettingsService
   ) {
 
-    var DEFAULT_SELECTED_NAMED_IDENTIFIER = MusicProviderIdentifier.build("Select ...", "");
+
   
 
     function onLoginSuccess() {
@@ -60,9 +62,29 @@
         );
     }
 
+    function asyncGetProviderInfoUrl(providerId){
+      var deferred = $q.defer();
+
+      providerSettingsService.asyncGet(providerId, 'homepage_url').then(
+        deferred.resolve,
+        deferred.reject
+      );
+
+      return deferred.promise;
+    }
+
+
     function onSelectorResult(selectedNamedIdentifier) {
       ac.selectedNamedIdentifier = selectedNamedIdentifier;
       ac.loginEnabled = true;
+      ac.infoEnabled = false;
+      ac.providerInfo = "";
+      asyncGetProviderInfoUrl(selectedNamedIdentifier)
+      .then(function(infoUrl){
+        ac.infoEnabled = true;
+        ac.providerInfo = infoUrl;
+      });
+ 
     }
 
     function onSelectorCancelled() {
@@ -73,30 +95,18 @@
     function asyncPopulateSelector() {
       var deferred = $q.defer();
       ac.busy = true;
-
       ac.selectedNamedIdentifier = gaddumMusicProviderService.getMusicProvider();
-      ac.loginEnabled = false;
-      
-
-      if(!ac.selectedNamedIdentifier){
-        ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
-        // ac.loginEnabled = true;
-      }
-      else{
-        ac.loginEnabled = true;
-      }
-      
-        
 
       gaddumMusicProviderService.asyncGetSupportedMusicProviders().then(
         function (result) {
           ac.serviceProviders = result;
           ac.busy = false;
-          if(ac.serviceProviders.length === 1){
-            ac.selectedNamedIdentifier = ac.serviceProviders[0];
-            ac.loginEnabled = true;
+          if(ac.serviceProviders.length > 0){
+            if(!ac.selectedNamedIdentifier){
+              ac.selectedNamedIdentifier = ac.serviceProviders[0];
+            }
           }
-          deferred.resolve(result);
+          deferred.resolve(ac.selectedNamedIdentifier);
         },
         function (err) {
           ac.serviceProviders = [];
@@ -137,8 +147,12 @@
     function init() {
       ac.busy = true;
       ac.loginEnabled = false;
-      ac.selectedNamedIdentifier = DEFAULT_SELECTED_NAMED_IDENTIFIER;
-      asyncPopulateSelector();
+      ac.infoEnabled = false;
+      ac.providerInfo = "";
+      asyncPopulateSelector().then(
+        function(selection){
+          onSelectorResult(selection);
+        });
     }
     init();
 

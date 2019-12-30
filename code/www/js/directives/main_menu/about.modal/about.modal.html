@@ -46,7 +46,15 @@
           </div>
           <h2>Project Personnel:</h2>
 
-          <p>{{ac.projectPersonnel}}</p>
+          <div id="personnelList">
+            <ion-content>
+              <ion-list>
+                <ion-item id="personnelListItem" ng-repeat="person in ac.projectPersonnel">
+                  <p>{{person}}</p>
+                </ion-item>
+              </ion-list>
+            </ion-content>
+          </div>
 
           <h2>Components and Licenses:</h2>
           <div id="componentsList">
