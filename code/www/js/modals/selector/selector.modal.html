@@ -1,6 +1,6 @@
 <div class="modal selectorModal" ng-controller="selectorModalController as mc">
-  <ion-content class="selectListModal">
-    <ion-list class="selectListModal" can-swipe="true">
+  <ion-content >
+    <ion-list can-swipe="true">
       <ion-item ng-click="mc.select(namedIdentifier)" ng-repeat="namedIdentifier in mc.namedIdentifiers" class="">
         <h2>{{namedIdentifier.name}}</h2>
       </ion-item>

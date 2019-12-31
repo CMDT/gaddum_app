@@ -599,7 +599,7 @@ ion-side-menu-content/*.menu-content.pane*/ {
     padding: 0;
 }
 .littleSelectArrow{
-    height: 90%;
+    height: 20%;
 float: right;
 top: 0;
 position: absolute;
@@ -1695,14 +1695,16 @@ div#scroller.ng-hide {
     right: 7%;
     top: 58%;
 }
+
 .selectorModal{
-    height: 10%;
+    height: 15%;
     position: absolute;
     min-height: 0px;
     width: 46%;
     top: 15.8rem;
     left: 29%;
 }
+
 .playlistDisplayName{
     padding-left: 90px;
     padding-top: 15px;

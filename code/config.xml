@@ -94,6 +94,7 @@
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value=" " />
     </plugin>
+    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova.plugins.diagnostic" spec="^3.9.2" />
     <plugin name="es6-promise-plugin" spec="^4.2.2" />
@@ -111,5 +112,4 @@
     <plugin name="com.virtuoworks.cordova-plugin-canvascamera" spec="https://github.com/VirtuoWorks/CanvasCameraPlugin.git">
         <variable name="CAMERA_USAGE_DESCRIPTION" value="Display video preview" />
     </plugin>
-    <plugin name="cordova-plugin-inappbrowser" spec="^1.7.2" />
 </widget>

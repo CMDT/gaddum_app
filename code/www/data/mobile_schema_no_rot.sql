@@ -211,17 +211,61 @@ INSERT INTO music_provider_settings (
                                     VALUES (
                                         'gaddumMusicProviderSpotifyService',
                                         'homepage_url',
-                                        'https://www.spotify.com/uk',
+                                        'https://www.spotify.com',
                                         'string'
                                     );
 
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'client_id',
+                                        'e09602dc211e406a99b2a1d74215b03e',
+                                        'string'
+                                    );
 
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'redirect_url',
+                                        'gaddumspotify://callback',
+                                        'string'
+                                    );
 
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_refresh_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
+                                        'string '
+                                    );
 
-
-
-
-
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyService',
+                                        'token_exchange_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
+                                        'string '
+                                    );
 
 INSERT INTO music_provider_settings (
                                         provider,
@@ -283,6 +327,136 @@ INSERT INTO music_provider_settings (
                                     )
                                     VALUES (
                                         'gaddumMusicProviderSpotifyService',
+                                        'base64_csv_selected_genre_tags',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'homepage_url',
+                                        'https://open.spotify.com/',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'client_id',
+                                        'e09602dc211e406a99b2a1d74215b03e',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'redirect_url',
+                                        'gaddumspotify://callback',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'token_refresh_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/refresh',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'token_exchange_url',
+                                        'https://gaddumauth.herokuapp.com:443/spotify/exchange',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'access_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'refresh_token',
+                                        NULL,
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'expires_at',
+                                        NULL,
+                                        'integer'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
+                                        'base64_csv_genre_tags',
+                                        'YWNvdXN0aWMsYWZyb2JlYXQsYWx0LXJvY2ssYWx0ZXJuYXRpdmUsYW1iaWVudCxhbmltZSxibGFjay1tZXRhbCxibHVlZ3Jhc3MsYmx1ZXMsYm9zc2Fub3ZhLGJyYXppbCxicmVha2JlYXQsYnJpdGlzaCxjYW50b3BvcCxjaGljYWdvLWhvdXNlLGNoaWxkcmVuLGNoaWxsLGNsYXNzaWNhbCxjbHViLGNvbWVkeSxjb3VudHJ5LGRhbmNlLGRhbmNlaGFsbCxkZWF0aC1tZXRhbCxkZWVwLWhvdXNlLGRldHJvaXQtdGVjaG5vLGRpc2NvLGRpc25leSxkcnVtLWFuZC1iYXNzLGR1YixkdWJzdGVwLGVkbSxlbGVjdHJvLGVsZWN0cm9uaWMsZW1vLGZvbGssZm9ycm8sZnJlbmNoLGZ1bmssZ2FyYWdlLGdlcm1hbixnb3NwZWwsZ290aCxncmluZGNvcmUsZ3Jvb3ZlLGdydW5nZSxndWl0YXIsaGFwcHksaGFyZC1yb2NrLGhhcmRjb3JlLGhhcmRzdHlsZSxoZWF2eS1tZXRhbCxoaXAtaG9wLGhvbGlkYXlzLGhvbmt5LXRvbmssaG91c2UsaWRtLGluZGlhbixpbmRpZSxpbmRpZS1wb3AsaW5kdXN0cmlhbCxpcmFuaWFuLGotZGFuY2Usai1pZG9sLGotcG9wLGotcm9jayxqYXp6LGstcG9wLGtpZHMsbGF0aW4sbGF0aW5vLG1hbGF5LG1hbmRvcG9wLG1ldGFsLG1ldGFsLW1pc2MsbWV0YWxjb3JlLG1pbmltYWwtdGVjaG5vLG1vdmllcyxtcGIsbmV3LWFnZSxuZXctcmVsZWFzZSxvcGVyYSxwYWdvZGUscGFydHkscGhpbGlwcGluZXMtb3BtLHBpYW5vLHBvcCxwb3AtZmlsbSxwb3N0LWR1YnN0ZXAscG93ZXItcG9wLHByb2dyZXNzaXZlLWhvdXNlLHBzeWNoLXJvY2sscHVuayxwdW5rLXJvY2ssci1uLWIscmFpbnktZGF5LHJlZ2dhZSxyZWdnYWV0b24scm9hZC10cmlwLHJvY2sscm9jay1uLXJvbGwscm9ja2FiaWxseSxyb21hbmNlLHNhZCxzYWxzYSxzYW1iYSxzZXJ0YW5lam8sc2hvdy10dW5lcyxzaW5nZXItc29uZ3dyaXRlcixza2Esc2xlZXAsc29uZ3dyaXRlcixzb3VsLHNvdW5kdHJhY2tzLHNwYW5pc2gsc3R1ZHksc3VtbWVyLHN3ZWRpc2gsc3ludGgtcG9wLHRhbmdvLHRlY2hubyx0cmFuY2UsdHJpcC1ob3AsdHVya2lzaCx3b3JrLW91dCx3b3JsZC1tdXNpYw==',
+                                        'string'
+                                    );
+
+INSERT INTO music_provider_settings (
+                                        provider,
+                                        id,
+                                        value,
+                                        value_type
+                                    )
+                                    VALUES (
+                                        'gaddumMusicProviderSpotifyConnectService',
                                         'base64_csv_selected_genre_tags',
                                         NULL,
                                         'string'
@@ -703,6 +877,15 @@ INSERT INTO music_providers (
                             VALUES (
                                 'gaddumMusicProviderSpotifyService',
                                 'Spotify'
+                            );
+
+INSERT INTO music_providers (
+                                id,
+                                name
+                            )
+                            VALUES (
+                                'gaddumMusicProviderSpotifyConnectService',
+                                'Spotify Connect'
                             );
 
 

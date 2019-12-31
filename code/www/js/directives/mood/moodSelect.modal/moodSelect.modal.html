@@ -1,13 +1,8 @@
-
-<div class="modal selectMoodModal"  ng-controller="moodSelectModalController as mc">
-  
-    <ion-content class="selectListModal">
-    <ion-list class="selectListModal" can-swipe="true">
+<div class="modal selectMoodModal"  ng-controller="moodSelectModalController as mc">  
+    <ion-content>
+    <ion-list can-swipe="true">
       <ion-item ng-click="mc.selectEmo(emotion.id)" ng-repeat=" emotion in mc.params " class="">
-        
         <h2>{{emotion.name}}</h2>
-        
-      
       </ion-item>
     </ion-list>
   </ion-content>

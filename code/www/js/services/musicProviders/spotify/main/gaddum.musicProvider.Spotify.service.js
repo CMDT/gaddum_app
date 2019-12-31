@@ -52,24 +52,55 @@
 
     // ------ UTILITY
 
-  
-    var MUSIC_PROVIDER_IDENTIFIER = null;
-    var CACHED_ACCESS_CREDENTIALS = null;
-    var CURRENT_TRACK_INFO = null;
-
-
-    var TRACK_PLAYING = false;
     var MOOD_TO_ATTRIBUTE_LOOKUP = null;
 
 
+    // define a set of clobberable properties and functions which we can override in
+    // retrofitted services.
+    var CORE = {
+      cached_access_credentials : null,
+      music_provider_identifier : null,
+      current_track_info : null,
+      track_is_playing : false,
 
+      asyncPlay : cordova.plugins.spotify.play,
+      asyncPause : cordova.plugins.spotify.pause,
+      asyncResume: cordova.plugins.spotify.resume,
+      asyncSeekTo_ms : cordova.plugins.spotify.seekTo,
+      asyncGetPosition : cordova.plugins.spotify.getPosition
+    }
+
+    function asyncGetAccessCredentials() {
+      var deferred = $q.defer();
+
+      $timeout(
+        function () {
+          if (CORE.cached_access_credentials) {
+            deferred.resolve(CORE.cached_access_credentials);
+          } else {
+            asyncLookupAccessCredentials().then(
+              function success(creds) {
+                CORE.cached_access_credentials = creds;
+                deferred.resolve(creds);
+              },
+              function error(err) {
+                CORE.cached_access_credentials = null;
+                deferred.reject(err);
+              }
+            )
+          }
+        }
+      )
+
+      return deferred.promise;
+    }
 
     function isTrackPlaying(){
-      return TRACK_PLAYING;
+      return CORE.track_is_playing;
     }
 
     function setTrackPlaying(playing){
-      TRACK_PLAYING = playing;
+      CORE.track_is_playing = playing;
     }
 
 
@@ -101,7 +132,7 @@
 
     function asyncAuthSuccess(response) {
 
-//      console.log("asyncAuthSuccess");
+      console.log("asyncAuthSuccess");
 
 
 
@@ -119,20 +150,21 @@
       var expiresAt_ms = currentTimeJavaEpoch_ms + expiresIn_ms;
 
 
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', accessToken));
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', expiresAt_ms));
+      promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'access_token', accessToken));
+      promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'expires_at', expiresAt_ms));
 
       // A login from a refresh token will not supply another. Don't write one, unless you get one
       if(!!refreshToken){
-        promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token', refreshToken));
+        promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'refresh_token', refreshToken));
       }
 
       $q.all(promises).then(
         function () {
           // now rebuild the cached credentials from the combined DB values. 
-          CACHED_ACCESS_CREDENTIALS = null;
+          CORE.cached_access_credentials = null;
           asyncGetAccessCredentials().then(
             function(result){
+              console.log("fetchedAccessCredentials: " + result);
               deferred.resolve(result);
             },
             function(error){
@@ -148,22 +180,25 @@
     }
 
 
-
     function asyncLogin() {
-//      console.log("asyncAuthLogin");
-
-      return authenticateSrvc.authenticate()
-        .then(
+      console.log("asyncAuthLogin");
+      var deferred = $q.defer();
+      
+      authenticateSrvc.authenticate()
+      .then(
           function (result) {
-            asyncAuthSuccess(result);
+            asyncAuthSuccess(result).then(
+              deferred.resolve,
+              deferred.reject
+            );
           },
           function (error) {
             console.log("asyncAuthLogin: error: " + error.message);
-
-            console.log(error);
+            deferred.reject(error);
           }
-        )
-        ;
+      );
+
+      return deferred.promise;
     }
 
 
@@ -182,7 +217,10 @@
 
 
 
-
+    // resolve with access credentials if they can be verified or refreshed
+    // resolve with null if they can't be found, or refreshed (internet access, 401, 403, 404, etc)
+    // this is so that we can invoke the user-led login process.
+    // reject with error  
     function asyncGetVerifiedAccessCredentials() {
       var deferred = $q.defer();
 
@@ -213,37 +251,14 @@
       return deferred.promise;
     }
 
-    function asyncGetAccessCredentials() {
-      var deferred = $q.defer();
-
-      $timeout(
-        function () {
-          if (CACHED_ACCESS_CREDENTIALS) {
-            deferred.resolve(CACHED_ACCESS_CREDENTIALS);
-          } else {
-            asyncLookupAccessCredentials().then(
-              function success(creds) {
-                CACHED_ACCESS_CREDENTIALS = creds;
-                deferred.resolve(creds);
-              },
-              function error(err) {
-                CACHED_ACCESS_CREDENTIALS = null;
-                deferred.reject(err);
-              }
-            )
-          }
-        }
-      )
-
-      return deferred.promise;
-    }
+    
 
     function asyncLookupAccessCredentials() {
       var deferred = $q.defer();
       var promises = [];
-      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'access_token'));
-      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at'));
-      promises.push(providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'refresh_token'));
+      promises.push(providerSettingsService.asyncGet(CORE.music_provider_identifier, 'access_token'));
+      promises.push(providerSettingsService.asyncGet(CORE.music_provider_identifier, 'expires_at'));
+      promises.push(providerSettingsService.asyncGet(CORE.music_provider_identifier, 'refresh_token'));
 
       $q.all(promises).then(
         function (results) {
@@ -287,7 +302,7 @@
 
           moodIds.forEach(function (moodId) {
 
-            promises.push(dataApiService.asyncGetProviderMoodAttributes(MUSIC_PROVIDER_IDENTIFIER.id, moodId.id));
+            promises.push(dataApiService.asyncGetProviderMoodAttributes(CORE.music_provider_identifier.id, moodId.id));
           });
 
           $q.all(promises).then(
@@ -324,8 +339,8 @@
         throw ("gaddumMusicProviderSpotifyService:asyncInitialise: no eventHandlerPromise.");
       }
 
-      TRACK_PLAYING = false;
-      MUSIC_PROVIDER_IDENTIFIER = musicProviderIdentifier;
+      CORE.track_is_playing = false;
+      CORE.music_provider_identifier = musicProviderIdentifier;
       EVENT_HANDLER_PROMISE = eventHandlerPromise;
 
 
@@ -374,17 +389,22 @@
     }
 
 
-    function asyncLogout() {
+    function asyncLogout (){
+      return asyncDestroyAuthentication();
+    }
 
-      // .. and our own in the DB
+
+    function asyncDestroyAuthentication() {
+
+     
       var deferred = $q.defer();
       var promises = [];
 
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'access_token', null));
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'expires_at', null));
-      promises.push(providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'encrypted_refresh_token', null));
+      promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'access_token', null));
+      promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'expires_at', null));
+      promises.push(providerSettingsService.asyncSet(CORE.music_provider_identifier, 'encrypted_refresh_token', null));
 
-      CACHED_ACCESS_CREDENTIALS = null;
+      CORE.cached_access_credentials = null;
 
 
       $q.all(promises).then(
@@ -436,7 +456,7 @@
       var deferred = $q.defer();
 
 
-      providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_genre_tags').then(
+      providerSettingsService.asyncGet(CORE.music_provider_identifier, 'base64_csv_genre_tags').then(
         function (base64Enc) {
           try {
             deferred.resolve(base64ToTagArray(base64Enc));
@@ -458,7 +478,7 @@
         function () {
           try {
             var value = tagArrayToBase64(candidates);
-            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags', value).then(
+            providerSettingsService.asyncSet(CORE.music_provider_identifier, 'base64_csv_selected_genre_tags', value).then(
               function () {
                 deferred.resolve();
               },
@@ -469,7 +489,7 @@
               }
             );
           } catch (e) {
-            providerSettingsService.asyncSet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags', null).then(
+            providerSettingsService.asyncSet(CORE.music_provider_identifier, 'base64_csv_selected_genre_tags', null).then(
               function () {
                 deferred.resolve();
               },
@@ -491,7 +511,7 @@
       var deferred = $q.defer();
 
 
-      providerSettingsService.asyncGet(MUSIC_PROVIDER_IDENTIFIER, 'base64_csv_selected_genre_tags').then(
+      providerSettingsService.asyncGet(CORE.music_provider_identifier, 'base64_csv_selected_genre_tags').then(
         function (base64Enc) {
           try {
             deferred.resolve(base64ToTagArray(base64Enc));
@@ -528,7 +548,7 @@
       return $q(function (resolve, reject) {
         var deviceID = device.uuid;
         asyncGetAccessCredentials().then(function (result) {
-          cordova.plugins.spotify.play(`spotify:track:${TID}`, {
+          CORE.asyncPlay(`spotify:track:${TID}`, {
             clientId: `${deviceID}`,
             token: `${result}`
           }).then(function () {
@@ -539,8 +559,8 @@
     }
     function asyncPause() {
       return $q(function (resolve, reject) {
-        cordova.plugins.spotify.pause()
-        then(function () {
+        CORE.asyncPause()
+        .then(function () {
           return resolve(true);
         });
       });
@@ -960,7 +980,7 @@
         spotifyTrack.href,
         spotifyTrack.album.images[0].url,
         spotifyTrack.uri,
-        MUSIC_PROVIDER_IDENTIFIER.getId()
+        CORE.music_provider_identifier.getId()
       );
       return result;
     }
@@ -1163,7 +1183,7 @@
         function () {
           dataApiService.asyncGetTrackInfos(
             genericTrack,
-            MUSIC_PROVIDER_IDENTIFIER
+            CORE.music_provider_identifier
           ).then(
             function (items) {
               if (items && items.length > 0) {
@@ -1198,11 +1218,11 @@
       $timeout(
         function () {
           setTrackPlaying(false);
-          if (CURRENT_TRACK_INFO) {
-            CURRENT_TRACK_INFO = null;
-            cordova.plugins.spotify.pause().then(
+          if (CORE.current_track_info) {
+            CORE.current_track_info = null;
+            CORE.asyncPause().then(
               function () {
-                cordova.plugins.spotify.seekTo(0).then(
+                CORE.asyncSeekTo_ms(0).then(
                   deferred.resolve,
                   deferred.resolve
                 );
@@ -1242,7 +1262,7 @@
               function (trackInfo) {
                 if (trackInfo) {
                   // found a cached track
-                  CURRENT_TRACK_INFO = trackInfo;
+                  CORE.current_track_info = trackInfo;
                   deferred.resolve(trackInfo);
                 } else {
                   // search spotify for something we can use
@@ -1252,7 +1272,7 @@
                         // now cache the result. Associate with the generic track, though.
                         asyncCacheTrackInfo(trackInfo, genericTrack).then(
                           function () {
-                            CURRENT_TRACK_INFO = trackInfo;
+                            CORE.current_track_info = trackInfo;
                             deferred.resolve(trackInfo)
                           },
                           deferred.reject //database error
@@ -1277,15 +1297,10 @@
     }
 
 
-    // function asyncPauseCurrentTrack() {
-
-    //   return cordova.plugins.spotify.pause();
-
-    // }
 
     function asyncPlayTrackResume(trackInfo) {
 
-      return cordova.plugins.spotify.resume();
+      return CORE.asyncResume();
 
     }
 
@@ -1297,13 +1312,13 @@
           if (trackInfo) {
               asyncGetAccessCredentials().then(
                 function onAuth(authToken) {
-                  cordova.plugins.spotify.play(trackInfo.getPlayerUri(), {
+                  CORE.asyncPlay(trackInfo.getPlayerUri(), {
                     clientId: credentialsSrvc.clientId,
                     token: authToken.getAccessToken()
                   })
                     .then(
                       function onPlaying() {
-                        cordova.plugins.spotify.seekTo(2) //special spotify thing - we want to ensure we get past the odd progress_ms = 1 thing when the track is just loaded. See getCurrentTrackProgressPercent
+                        CORE.asyncSeekTo_ms(2) //special spotify thing - we want to ensure we get past the odd progress_ms = 1 thing when the track is just loaded. See getCurrentTrackProgressPercent
                           .then(
                             function onSeekSuccess() {
                               deferred.resolve(trackInfo);
@@ -1324,7 +1339,7 @@
               );
             
           } else {
-            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
+            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CORE.current_track_info is null."));
           }
         }
 
@@ -1341,8 +1356,8 @@
 
       var result = 0;
 
-      if (CURRENT_TRACK_INFO) {
-        var total_ms = CURRENT_TRACK_INFO.duration_ms;
+      if (CORE.current_track_info) {
+        var total_ms = CORE.current_track_info.duration_ms;
         if (total_ms && total_ms > 0) {
           result = (trackTime_ms / total_ms) * 100;
           if (result > 100) {
@@ -1360,8 +1375,8 @@
       var deferred = $q.defer();
       $timeout(
         function () {
-          if (CURRENT_TRACK_INFO) {
-            cordova.plugins.spotify.getPosition().then(
+          if (CORE.current_track_info) {
+            CORE.asyncGetPosition().then(
               function (position_ms) {
                 // spotify special case.
                 // we tear down by seeking to 0, but Spotify always sets this to 1 ms.
@@ -1380,7 +1395,7 @@
                     result = calculateTrackProgressPercent(position_ms);
                   }
                 }
-
+                console.log("ms: " + position_ms + " %: " + result);
                 deferred.resolve(result);
 
               },
@@ -1398,7 +1413,7 @@
 
 
     function getCurrentTrack() {
-      return CURRENT_TRACK_INFO;
+      return CORE.current_track_info;
     }
 
     // emits events according to what happens
@@ -1410,46 +1425,34 @@
     // rejects on catastophic errors.
     // a missing track is not catastrophic
     function asyncPlayCurrentTrack() {
-//      console.log("spotifyService:playCurrentTrack");
-      var deferred = $q.defer();
 
-      // Dummy for now.
 
-      $timeout(
-
-        function () {
-
-          if (CURRENT_TRACK_INFO) {
+      return new Promise(
+        function(resolve, reject){
+          if (CORE.current_track_info) {
             if (!isTrackPlaying()) {
               setTrackPlaying(true);
-              asyncPlayTrackFromBegining(CURRENT_TRACK_INFO).then(
-                deferred.resolve()
-                ,
+              asyncPlayTrackFromBegining(CORE.current_track_info)
+              .then(resolve)
+              .catch(
                 function (err) {
-                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                  reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
                 }
               );
             } else {
-              asyncPlayTrackResume(CURRENT_TRACK_INFO).then(
-                deferred.resolve()
-                ,
+              asyncPlayTrackResume(CORE.current_track_info)
+              .then(resolve)
+              .catch(
                 function (err) {
-                  deferred.reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
+                  reject(ErrorIdentifier.build(ErrorIdentifier.NO_MUSIC_PROVIDER, "attempting to play, but plugin returned an error. Could be you don't have a premium account?"));
                 }
               );
             }
           } else {
-            deferred.reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CURRENT_TRACK_INFO is null."));
+            reject(ErrorIdentifier.build(ErrorIdentifier.SYSTEM, "attempting to play, but CORE.current_track_info is null."));
           }
-
         }
-
       );
-
-      return deferred.promise;
-
-
-
     }
 
     function asyncPauseCurrentTrack() {
@@ -1461,7 +1464,7 @@
 
         function () {
 
-          deferred.resolve(cordova.plugins.spotify.pause());
+          deferred.resolve(CORE.asyncPause());
         }
 
       );
@@ -1472,23 +1475,23 @@
     }
 
 
+
+
+
+
     var service = {
+      CORE: CORE,
+
       asyncInitialise: asyncInitialise,
       asyncLogin: asyncLogin,
       asyncIsLoggedIn: asyncIsLoggedIn,
       asyncLogout: asyncLogout,
+      asyncGetAccessCredentials: asyncGetAccessCredentials,
+
       asyncGetSupportedSearchModifiers: asyncGetSupportedSearchModifiers,
       asyncGetSupportedGenres: asyncGetSupportedGenres,
       asyncSetGenres: asyncSetGenres,
       asyncGetGenres: asyncGetGenres,
-
-      asyncSetTrack: asyncSetTrack,
-      getCurrentTrack: getCurrentTrack,
-      asyncPlayCurrentTrack: asyncPlayCurrentTrack,
-      asyncPauseCurrentTrack: asyncPauseCurrentTrack,
-      asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
-      asyncTeardownCurrentTrack: asyncTeardownCurrentTrack,
-
 
       asyncGetSupportedSearchModifier: asyncGetSupportedSearchModifier,
       asyncSeekTracks: asyncSeekTracks,
@@ -1496,7 +1499,18 @@
 
       asyncGetProfilePlaylist: asyncGetProfilePlaylist,
       asyncImportPlaylists: asyncImportPlaylists,
-      asyncImportTracks: asyncImportTracks
+      asyncImportTracks: asyncImportTracks,
+
+
+      asyncSetTrack: asyncSetTrack,
+      getCurrentTrack: getCurrentTrack,
+      asyncPlayCurrentTrack: asyncPlayCurrentTrack,
+      asyncPauseCurrentTrack: asyncPauseCurrentTrack,
+      asyncGetCurrentTrackProgressPercent, asyncGetCurrentTrackProgressPercent,
+      asyncTeardownCurrentTrack: asyncTeardownCurrentTrack
+
+
+
 
     };
 

@@ -298,16 +298,30 @@
 
     function asyncLogout() {
 
-      var promise = null;
+      return new Promise(function(resolve, reject){
 
-      if (MUSIC_PROVIDER) {
-        promise = MUSIC_PROVIDER.asyncLogout();
-      } else {
-        var deferred = $q.defer();
-        promise = deferred.promise;
-        deferred.resolve();
-      }
-      return promise;
+        if(!!MUSIC_PROVIDER){
+          MUSIC_PROVIDER.asyncTeardownCurrentTrack()
+          .then(function(){
+            MUSIC_PROVIDER.asyncLogout()
+            .then(resolve)
+            .catch(resolve);
+          })
+          .catch(
+            function(){
+              MUSIC_PROVIDER.asyncLogout()
+              .then(resolve)
+              .catch(resolve);
+            });
+        }else{
+          resolve();
+        }
+
+      });
+
+
+
+
     }
 
     function asyncSuggestTracks(genres, moodId, limit) {
@@ -403,7 +417,7 @@
       var deferred = $q.defer();
       MUSIC_PROVIDER.asyncGetCurrentTrackProgressPercent().then(
         function onProgress(percent) {
-          //console.log("asyncPollAndBroadcast: onProgress: percent " + percent);
+          console.log("asyncPollAndBroadcast: onProgress: percent " + percent);
           if (percent == 0) {
             POLLING = false;
           } else {
@@ -470,7 +484,7 @@
         function () {
           MUSIC_PROVIDER.asyncPlayCurrentTrack().then(
             function onSuccess() {
-              //console.log("starting polling...");
+              console.log("starting polling...");
               startPositionPolling();
 
               deferred.resolve(true);
