@@ -21,6 +21,7 @@
       
     });
 
+    ac.provider = aboutService.getProvider();
     ac.appVersion = aboutService.appVersion();
     ac.componentsLicenses = (aboutService.componentsLicenses()).licenses;
     ac.projectPersonnel = aboutService.projectPersonnel();

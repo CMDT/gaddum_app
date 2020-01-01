@@ -7,10 +7,10 @@
     ;
 
   aboutService.$inject = [
-
+    'gaddumMusicProviderService'
   ];
   function aboutService(
-
+    gaddumMusicProviderService
   ) {
 
 
@@ -18,6 +18,23 @@
       //   console.log(AppVersion.version);
       return AppVersion.version;
     }
+
+    function getProvider(){
+      
+      var result = ""
+      
+      var provider = gaddumMusicProviderService.getMusicProvider();
+
+      if(!!provider){
+        result = provider.getName();
+      }
+
+      console.log("provider: " + provider);
+
+      return result;
+
+    }
+
     function componentsLicenses() {
       var licenseArray = {licenses:[
         {"name":"android-versions","version":"^1.4.0 ","link":"https://github.com/dvoiss/android-versions#readme "},
@@ -81,6 +98,7 @@
     };
     var service = {
       appVersion: appVersion,
+      getProvider: getProvider,
       componentsLicenses: componentsLicenses,
       projectPersonnel: projectPersonnel,
       gaddumLink: gaddumLink,

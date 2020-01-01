@@ -2251,6 +2251,12 @@ div#scroller.ng-hide {
       top: 1%;
       right: 1%;
   }
+  #musicProviderDiv{
+    background: transparent;
+    position: absolute;
+    top: 1%;
+    left: 1%;
+  }
   .whiteBold{
     color: white !important;
     font-weight: 700 !important;
