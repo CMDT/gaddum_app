@@ -89,7 +89,7 @@
             if (!(pathArray == null)) {
                 pathArray.forEach(
                     function (path) {
-                        var pathAsString = path.fullPath
+                        var pathAsString = path.applicationPath;
                         var name = createFunctionName(pathAsString);
                         var item = {
                             function: name,

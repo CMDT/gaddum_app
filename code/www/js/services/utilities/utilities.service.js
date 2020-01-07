@@ -214,7 +214,12 @@
               function (fileSystem) {
                 var reader = fileSystem.createReader();
                 reader.readEntries(
-                  success,
+                  function(entries){
+                    entries.forEach(function(entry){
+                        entry.applicationPath = path + "/" + entry.name;
+                    });
+                    success(entries);
+                  },
                   fail
                 );
               }, 
