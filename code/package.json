@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "An Ionic project",
   "devDependencies": {
-    "@ionic/v1-toolkit": "1.0.22",
+    "@ionic/v1-toolkit": "3.2.20",
     "gulp-sass": "^4.0.2"
   },
   "dependencies": {
@@ -33,7 +33,7 @@
     "cordova-sqlite-storage": "^3.3.0",
     "cordova.plugins.diagnostic": "^3.9.2",
     "es6-promise-plugin": "^4.2.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-minify-css": "^1.2.4",
     "gulp-rename": "^1.4.0",
